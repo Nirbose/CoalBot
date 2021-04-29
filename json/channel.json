@@ -1,13 +1,12 @@
 {
-    "voc_channel": ["810305421021413416"],
-
-    "welcome": {
-        "phrase": ["test"],
-        "channel_id": 781105165754433540
-    },
-    
-    "goodbye": {
-        "phrase": ["tets"],
-        "channel_id": 781105165754433540
-    }
+  "voc_channel": ["810305421021413416"],
+  "welcome": {
+    "phrase": ["{user} tu as ramené de la pizza ?", "Regardez ce petit oiseau {user} se poser !"],
+    "channel_id": "781105165754433540"
+  },
+  
+  "goodbye": {
+    "phrase": ["tets"],
+    "channel_id": 781105165754433540
+  }
 }

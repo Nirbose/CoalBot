@@ -4,8 +4,8 @@ module.exports = {
 
     execute(message) {
 
-        if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Je ne peux pas faire cela.");
-        if(!message.guild.me.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Je n'ais pas les droits pour faire cela.");
+        // Vérification de permition
+        tools.verif(message, 1);
 
         const args = message.content.split(' ').slice(1);
         const amount = args.join(' ');

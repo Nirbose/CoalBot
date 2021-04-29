@@ -9,14 +9,14 @@ module.exports = {
         if (!args[0]) {
             let embed = new Discord.MessageEmbed()
             .setColor('#3C3C3A')
-            .setDescription('Ton avatar :')
-            .setImage(message.author.displayAvatarURL({ dynamic: true }))
+            .setDescription('Votre avatar :')
+            .setImage(message.author.avatarURL())
             return message.channel.send(embed);
 		} else {
             let embed = new Discord.MessageEmbed()
             .setColor('#3C3C3A')
-            .setDescription(`L'avatar de ${member}`)
-            .setImage(message.mentions.users.avatarURL)
+            .setDescription(`L'avatar de ${member} :`)
+            .setImage(member.user.avatarURL())
             return message.channel.send(embed);
         }
 	},

@@ -1,4 +1,4 @@
-const tools = require('../../util/function/modo_perm');
+const tools = require('../../assets/function/modo_perm');
 
 module.exports = {
     name: "lock",

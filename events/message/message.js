@@ -7,11 +7,12 @@ module.exports = async (client, message) => {
 
 	/////////////// Reaction Message ///////////////
 
-	const hello = ['salut', 'yo', 'bonjour', 'bjr'];
+	const hello = ['salut', 'yo', 'bonjour', 'bjr', 'hey', 'hello', 'helo'];
 
 	const content = message.content.toLowerCase();
 	
 	for (let index = 0; index < hello.length; index++) {
+		if(client.user.id == message.author.id) return;
 		if(content.includes(hello[index])) {
 			message.react('👋');
 		}

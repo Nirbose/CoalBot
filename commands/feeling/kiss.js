@@ -1,4 +1,4 @@
-const tenor = require('../../util/function/tenor_api.js');
+const tenor = require('../../assets/function/tenor_api.js');
 
 module.exports = {
     name: "kiss",

@@ -3,6 +3,7 @@ const {stop} = require('../../assets/function/music');
 
 module.exports = {
     name: "stop",
+    desctiption: "Commande permettant de couper la musique et celle qui suive.",
 
     execute(message) {
 

@@ -2,10 +2,11 @@ const Discord = require('discord.js');
 var search = require('youtube-search');
 const ytdl = require('ytdl-core');
 const {plays} = require('../../assets/function/music');
+const {yt_key} = require('../../config.json');
 
 module.exports = {
     name: "play",
-    description: "permet de lancer une musique.",
+    description: "Commande permettant de jouer une musique ou la mettre dans la playliste/file d'attente.",
     aliases: ['p'],
     execute(message, args) {
         if(!message.member.voice.channel) return message.channel.send('Vous devez être connectez dans un voval pout effectuer cette commande.');
@@ -16,19 +17,25 @@ module.exports = {
         message.member.voice.channel.join()
         .then(connection => {
 
-            search(arg, {maxResults: 10, key: 'AIzaSyDhrmbamgGKOqMeFvzW_fdJ5yvoJTSL1nM'}, function(err, results) {
-                if(err) return console.log(err);
-
-                for(let i = 0; i < results.length; i++) {
-                    
-                    if (results[i]['link'].includes('watch')) {
-                        plays(message, results[i], connection);
-                        return;
+            for(let i = 0; i < yt_key.length; i++) {
+                search(arg, {maxResults: 10, key: yt_key[i]}, function(err, results) {
+    
+                    if(!err) {
+                        for(let i = 0; i < results.length; i++) {
+                        
+                            if (results[i]['link'].includes('watch')) {
+                                plays(message, results[i], connection);
+                                return;
+                            }
+                            
+                        }
+                    } else {
+                        console.log(err.response)
                     }
-                    
-                }
-
-            });
+    
+                });
+                
+            }
 
         })
           

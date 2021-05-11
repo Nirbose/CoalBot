@@ -1,5 +1,6 @@
 module.exports = {
     name: 'join',
+    description: "Commande qui permet de faire rejoindre le bot dans le salon vocal où nous nous trouvons.",
 
     execute(message) {
         if(!message.member.voice.channel) return message.channel.send('Vous devez être connectez dans un voval pout effectuer cette commande.');

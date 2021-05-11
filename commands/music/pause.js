@@ -3,6 +3,7 @@ const {pause} = require('../../assets/function/music');
 
 module.exports = {
     name: "pause",
+    description: "Commande permettant de mettre une musique en pause.",
 
     execute(message) {
 

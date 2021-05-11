@@ -21,11 +21,29 @@ let self = module.exports = {
             serverQueue.songs.push(song);
 
             serverQueue.connection = connection;
+
+            const embed = new Discord.MessageEmbed()
+                .setTitle(`${song.title}`)
+                .setColor('#3C3C3A')
+                .setDescription(`🎶 - Je lance **${song.title}** de la chaîne de __${song.channelTitle}__ !`)
+                .setImage(song.thumbnails.medium.url)
+                .setFooter(message.author.username, message.author.avatarURL())
+                .setTimestamp()
+
+            message.channel.send(embed)
         }
         else {
             if(noNext) {
                 serverQueue.songs.push(song);
-			    return message.channel.send(`${song.title} est ajouter a la "play-list" .`);
+                const embed = new Discord.MessageEmbed()
+                .setColor('#3C3C3A')
+                .setTitle('🔊・Ajouter à la playliste')
+                .setDescription(`**${song.title}** a été ajouté à la playliste actuellement construite. 🎵`)
+                .setImage(song.thumbnails.medium.url)
+                .setFooter(message.author.username, message.author.avatarURL())
+                .setTimestamp()
+
+                return message.channel.send(embed);
             }
 	    }
 
@@ -33,8 +51,21 @@ let self = module.exports = {
 
             const song_exec = connection.play(ytdl(song.link, { filter: 'audioonly' } )).on('finish', () => {
                 serverQueue.songs.shift();
-                message.channel.send('Good !')
                 self.plays(message, serverQueue.songs[0], connection, false);
+
+                try {
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle(`${serverQueue.songs[0].title}`)
+                    .setColor('#3C3C3A')
+                    .setDescription(`🎶 - Je lance **${serverQueue.songs[0].title}** de la chaîne de __${serverQueue.songs[0].channelTitle}__ !`)
+                    .setImage(serverQueue.songs[0].thumbnails.medium.url)
+                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setTimestamp()
+                } catch(err) {
+                    return;
+                }
+
+                message.channel.send(embed)
             });
 
             song_exec.setVolume(0.5);
@@ -45,7 +76,7 @@ let self = module.exports = {
 
     skip: function(message) {
         if(!serverQueue) {
-            return message.channel.send('Aucunne musique en cour.')
+            return message.channel.send('Aucune musique en cour.')
         }
 
         serverQueue.connection.dispatcher.end();
@@ -53,7 +84,7 @@ let self = module.exports = {
 
     stop: function(message) {
         if(!serverQueue) {
-            return message.channel.send('Aucunne musique en cour.')
+            return message.channel.send('Aucune musique en cour.')
         }
 
         serverQueue.songs = [];
@@ -62,7 +93,7 @@ let self = module.exports = {
 
     resume: function(message) {
         if(!serverQueue) {
-            return message.channel.send('Aucunne musique en cour.')
+            return message.channel.send('Aucune musique en cour.')
         }
 
         if (!serverQueue.playing) {
@@ -70,19 +101,19 @@ let self = module.exports = {
 			serverQueue.connection.dispatcher.resume();
 			return message.channel.send('Je reprend !');
 		} else {
-            return message.channel.send("La musique est déjà lancer.");
+            return message.channel.send("▶ - La musique est déjà lancer.");
         }
     },
 
     pause: function(message) {
         if(!serverQueue) {
-            return message.channel.send('Aucunne musique en cour.')
+            return message.channel.send('Aucune musique en cour.')
         }
 
         if (serverQueue.playing) {
 			serverQueue.playing = false;
 			serverQueue.connection.dispatcher.pause();
-			return message.channel.send('Le musique est en pause.');
+			return message.channel.send('⏸ - Le musique est en pause.');
 		}
     }
 }

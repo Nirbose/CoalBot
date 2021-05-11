@@ -7,7 +7,7 @@ module.exports = async (client, message) => {
 
 	/////////////// Reaction Message ///////////////
 
-	const hello = ['salut', 'yo', 'bonjour', 'bjr', 'hey', 'hello', 'helo'];
+	const hello = ['salut ', 'yo ', 'bonjour ', 'bjr ', 'hey ', 'hello ', 'helo '];
 
 	const content = message.content.toLowerCase();
 	

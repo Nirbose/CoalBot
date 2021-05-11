@@ -1,0 +1,18 @@
+[
+    {
+        "userName": "Titi",
+        "userId": "1234",
+        "playlist": [
+            {
+                "id": 1,
+                "title": "Test",
+                "url": "https://youtube.com/watch?v=lqfoiopqjf"
+            },
+            {
+                "id": 2,
+                "title": "Truc",
+                "url": "https://youtube.com/watch?v=lqsdsfgdgopqjf"
+            }
+        ]
+    }
+]

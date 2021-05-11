@@ -3,6 +3,7 @@ const {resume} = require('../../assets/function/music');
 
 module.exports = {
     name: "resume",
+    description: "Commande permettant de redémarrer la musique.",
 
     execute(message) {
 

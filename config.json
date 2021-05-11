@@ -1,5 +1,8 @@
 {
     "prefix": "!",
     "token": "",
-    "tenor_key": ""
+
+    "tenor_key": "",
+    "yt_key": [],
+    "blague_key": ""
 }

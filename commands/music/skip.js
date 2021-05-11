@@ -3,6 +3,7 @@ const {skip} = require('../../assets/function/music');
 
 module.exports = {
     name: "skip",
+    description: "Commande permettant de passer la musique en cour.",
     aliases: ['s', 'pass'],
 
     execute(message) {

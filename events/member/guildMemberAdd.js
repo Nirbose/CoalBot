@@ -11,7 +11,7 @@ module.exports = async (client, member) => {
     const canvas = Canvas.createCanvas(700, 350);
     const ctx = canvas.getContext('2d');
     const text = canvas.getContext('2d');
-    const background = await Canvas.loadImage('./util/imgs/bg.png');
+    const background = await Canvas.loadImage('./assets/imgs/bg.png');
     const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: 'png' }));
 
     ctx.strokeStyle = '#74037b';

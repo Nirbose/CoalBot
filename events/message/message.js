@@ -2,6 +2,9 @@
 
 const config = require('../../config.json')
 const prefix = config.prefix;
+const Mee6LevelsApi = require("mee6-levels-api");
+const Discord = require('discord.js');
+const Canvas = require('canvas');
 
 module.exports = async (client, message) => {
 
@@ -55,4 +58,28 @@ module.exports = async (client, message) => {
 		.setTimestamp();
 		message.reply(embed);
 	}
+
 };
+
+/////////////////////// Test ///////////////////////
+
+// Mention système.
+// module.exports = async (client, message) => {
+
+// 	if (message.channel.type === 'dm') {
+// 		return;
+// 	}
+
+// 	let msg = message.content.toLowerCase();
+
+// 	message.guild.roles.cache.forEach(role => {
+// 		if(role.id == '805868500211335219') {
+// 			role.members.forEach(member => {
+// 				if(msg.includes(member.user.username.toLowerCase())) {
+// 					member.send('Salut, tu as été mentioner par message.');
+// 					message.react('😲');
+// 				}
+// 			});
+// 		}
+// 	});
+// }

@@ -2,6 +2,8 @@ const Discord = require("discord.js");
 
 module.exports = {
 	name: 'avatar',
+    description:"Affiche votre avatar",
+    categorie: "Other",
 	execute(message, args) {
 
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);

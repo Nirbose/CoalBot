@@ -3,6 +3,7 @@ const fs = require('fs');
 module.exports = {
     name: "unlock",
     description: "Commande pour débloquer un salon textuel.",
+    categorie: "Moderation",
     execute(message) {
 
         // Vérification de permition

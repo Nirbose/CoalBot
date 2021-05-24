@@ -4,7 +4,7 @@ const client = new Discord.Client();
 module.exports = {
     name: "ban",
     description: "Bannir un membre.",
-
+    categorie: "Moderation",
     execute(message, args) {
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 

@@ -8,6 +8,7 @@ module.exports = {
     name: "play",
     description: "Commande permettant de jouer une musique ou la mettre dans la playliste/file d'attente.",
     aliases: ['p'],
+    categorie: "Music",
     execute(message, args) {
         if(!message.member.voice.channel) return message.channel.send('Vous devez être connectez dans un voval pout effectuer cette commande.');
 

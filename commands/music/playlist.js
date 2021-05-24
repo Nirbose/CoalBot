@@ -3,7 +3,7 @@ const fs = require('fs');
 module.exports = {
     name: "playlist",
     description: "Permet de crée sa playliste.",
-
+    categorie: "Music",
     execute(message, arg) {
         if(arg[0]) {
             arg[0].toLowerCase();

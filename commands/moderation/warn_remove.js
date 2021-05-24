@@ -5,6 +5,7 @@ module.exports = {
     name: "warn_remove",
     description: "Permet de retirer 1 warn.",
     aliases: ["remove_warn"],
+    categorie: "Moderation",
     execute(message, args) {
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 

@@ -2,8 +2,9 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: "choice",
-    description: "",
+    description: "Sondage a choix multiple",
     aliases: ['sondage_choice', 'sond_choice'],
+    categorie: "admin",
     execute(message, args) {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.");
 

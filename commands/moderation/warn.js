@@ -3,6 +3,8 @@ const Discord = require('discord.js')
 
 module.exports = {
     name: "warn",
+    description:"Permet de mettre un avertissement",
+    categorie: "Moderation",
     execute(message, args) {
 
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);

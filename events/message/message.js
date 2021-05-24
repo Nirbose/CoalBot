@@ -4,7 +4,6 @@ const config = require('../../config.json')
 const prefix = config.prefix;
 const Mee6LevelsApi = require("mee6-levels-api");
 const Discord = require('discord.js');
-const Canvas = require('canvas');
 
 module.exports = async (client, message) => {
 

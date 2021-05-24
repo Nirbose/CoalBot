@@ -7,6 +7,7 @@ const reply = [
 module.exports = {
     name: "ask",
     description: "Permet de donner une réponse aléatoire à une question.",
+    categorie: "fun",
     execute(message) {
 
         const random = Math.floor(Math.random() * reply.length);

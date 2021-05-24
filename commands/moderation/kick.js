@@ -2,7 +2,8 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: "kick",
-
+    description:"permet d'expulser un membre",
+    categorie: "Moderation",
     execute(message, args) {
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 

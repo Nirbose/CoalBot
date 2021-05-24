@@ -1,11 +1,8 @@
 module.exports = {
     name: "clear",
     description: "Supprimé des messages",
-
+    categorie: "Moderation",
     execute(message) {
-
-        // Vérification de permition
-        tools.verif(message, 1);
 
         const args = message.content.split(' ').slice(1);
         const amount = args.join(' ');

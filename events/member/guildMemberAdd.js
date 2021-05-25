@@ -3,7 +3,7 @@ const fs = require('fs');
 const Discord = require('discord.js')
 
 module.exports = async (client, member) => {
-
+    
     // let rawdata = fs.readFileSync('./json/channel.json');
     // let json_channel = JSON.parse(rawdata);
 
@@ -45,5 +45,5 @@ module.exports = async (client, member) => {
     // .setImage('attachment://welcome-img.png')
     // .setTimestamp()
     // client.channels.cache.get(json_channel.welcome.channel_id).send(embed);
-
+    
 }

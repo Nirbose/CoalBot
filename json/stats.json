@@ -1,18 +1,18 @@
-[
+[   
     {
         "year": 2021,
         "month": 4,
         "members": {
-            "join": 56,
-            "leave": 127
+            "join": 38,
+            "leave": 9
         }
     },
     {
         "year": 2021,
         "month": 5,
         "members": {
-            "join": 12,
-            "leave": 12
+            "join": 38,
+            "leave": 9
         }
     }
 ]

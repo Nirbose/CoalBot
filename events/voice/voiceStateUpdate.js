@@ -10,6 +10,21 @@ module.exports = async (client, oldMember, newMember) => {
 
     var i;
     if(newMember.channel) {
+        
+        // supprime de force l'ancien voc de l'user.
+        if(oldMember.channel) {
+
+            for (var i = 0; i < id_voc.length; i++) {
+    
+                if(oldMember.channel.members.size === 0){
+                    if(oldUserChannel === id_voc[i]) {
+                        oldMember.channel.delete()
+                    }
+                };
+                        
+            }
+        }
+
         for (i = 0; i < json_channel['voc_channel'].length; i++) {
             if(newUserChannel === json_channel['voc_channel'][i]) {
 
@@ -39,10 +54,10 @@ module.exports = async (client, oldMember, newMember) => {
 
     if(oldMember.channel) {
 
-        for (var a = 0; a < id_voc.length; a++) {
+        for (var i = 0; i < id_voc.length; i++) {
 
             if(oldMember.channel.members.size === 0){
-                if(oldUserChannel === id_voc[a]) {
+                if(oldUserChannel === id_voc[i]) {
                     oldMember.channel.delete()
                 }
             };

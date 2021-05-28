@@ -7,7 +7,7 @@ module.exports = {
     categorie: "Music",
     execute(message) {
 
-        if(!message.member.voice.channel) return message.channel.send('Vous devez être connectez dans un voval pout effectuer cette commande.');
+        if(!message.member.voice.channel) return message.channel.send('Vous devez être connectez dans un vocal pout effectuer cette commande.');
 
         pause(message);
     }

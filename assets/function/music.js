@@ -80,6 +80,7 @@ let self = module.exports = {
         }
 
         serverQueue.connection.dispatcher.end();
+        message.channel.send("Musique skiper.")
     },
 
     stop: function(message) {

@@ -1,12 +1,21 @@
 {
-  "voc_channel": ["810305421021413416"],
+  "voc_channel": [
+    "844641673144172636"
+  ],
   "welcome": {
-    "phrase": ["{user} tu as ramené de la pizza ?", "Regardez ce petit oiseau {user} se poser !"],
+    "phrase": [
+      "{user} tu as ramené de la pizza ?",
+      "Regardez ce petit oiseau {user} se poser !"
+    ],
     "channel_id": "781105165754433540"
   },
-  
   "goodbye": {
-    "phrase": ["tets"],
-    "channel_id": 781105165754433540
+    "phrase": [
+      "tets"
+    ],
+    "channel_id": 781105165754433500
+  },
+  "chatbot": {
+    "channel_id": "847951197683187712"
   }
 }

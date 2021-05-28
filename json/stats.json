@@ -1,5 +1,4 @@
 [   
-<<<<<<< HEAD
     {
         "year": 2021,
         "month": 0,
@@ -32,32 +31,22 @@
             "leave": 45
         }
     },
-=======
->>>>>>> bef28dcae3c84a1a294c709d4f0385f56325e1c4
+
     {
         "year": 2021,
         "month": 4,
         "members": {
-<<<<<<< HEAD
             "join": 40,
             "leave": 20
-=======
-            "join": 38,
-            "leave": 9
->>>>>>> bef28dcae3c84a1a294c709d4f0385f56325e1c4
+
         }
     },
     {
         "year": 2021,
         "month": 5,
         "members": {
-<<<<<<< HEAD
             "join": 25,
             "leave": 10
-=======
-            "join": 38,
-            "leave": 9
->>>>>>> bef28dcae3c84a1a294c709d4f0385f56325e1c4
         }
     }
 ]

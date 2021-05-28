@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-var search = require('youtube-search');
+let search = require('youtube-search');
 const ytdl = require('ytdl-core');
 const {plays} = require('../../assets/function/music');
 const {yt_key} = require('../../config.json');

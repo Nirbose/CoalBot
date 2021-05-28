@@ -110,6 +110,18 @@ module.exports = {
                     message.channel.send(`Certaines statistiques sont manquante (${monthList.length-count}mois)`) 
                     return;
                 }
+                // Si il n'y a pas de mois avant celui actuelle il met les comptes a 0
+                if(!json_stats[i - 1]) {
+                    json_stats[i - 1] = {
+                        year: json_stats[i].year,
+                        mouth: json_stats[i].month,
+                        members: {
+                            join: 0,
+                            leave: 0
+                        }
+                    }
+                }
+
                 chart.setConfig({
                     type: 'line',
                     data: { 
@@ -144,6 +156,15 @@ module.exports = {
                 //     {name: "📈 Arrivant", value: json_stats[i - 1].members.join, inline: true},
                 //     {name: "📉 Départ", value: json_stats[i - 1].members.leave, inline: true}
                 // )
+               .setDescription(`Stats du mois de ${mouths[d_mouth - 1]}.`)
+                .addFields(
+                    {name: "📈 Arrivant", value: json_stats[i].members.join, inline: true},
+                    {name: "📉 Départ", value: json_stats[i].members.leave, inline: true},
+                    {name: "\u200B", value: "```Mois dernier :``` \u200B", inline: false},
+                    {name: "📈 Arrivant", value: json_stats[i - 1].members.join, inline: true},
+                    {name: "📉 Départ", value: json_stats[i - 1].members.leave, inline: true}
+                )
+
                 .setImage(chart.getUrl())
                 .setTimestamp()
     

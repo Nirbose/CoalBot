@@ -1,7 +1,11 @@
 {
+<<<<<<< HEAD
   "voc_channel": [
     "844641673144172636"
   ],
+=======
+  "voc_channel": ["810305421021413416", "844641673144172636"],
+>>>>>>> bef28dcae3c84a1a294c709d4f0385f56325e1c4
   "welcome": {
     "phrase": [
       "{user} tu as ramené de la pizza ?",

@@ -25,6 +25,11 @@ module.exports = {
 
         } else if(arg[0] === "add") {
 
+            for(let i = 0; i < array.length; i++) {
+                const element = array[i];
+                
+            }
+
         } else if(arg[0] === "remove") {
 
         } else if(!arg[0]) {

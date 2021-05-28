@@ -1,5 +1,5 @@
 {
-  "voc_channel": ["810305421021413416"],
+  "voc_channel": ["810305421021413416", "844641673144172636"],
   "welcome": {
     "phrase": ["{user} tu as ramené de la pizza ?", "Regardez ce petit oiseau {user} se poser !"],
     "channel_id": "781105165754433540"

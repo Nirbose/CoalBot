@@ -62,6 +62,7 @@ module.exports = {
             })
     
             m.client.on('messageReactionRemove', async (reaction, user) => {
+
                 no=m.reactions.cache.get('❌').count - 1;
                 yes=m.reactions.cache.get('✅').count - 1;
                 

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "coalbotbotchat-cppb",
+  "private_key_id": "5ba83fa9fa1c4d4b5b76405038cdd5ba44d3fd6c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC2n2m3RWIYn973\nl3cEO8K6r/uD0GqFq2X+sK8bMmUt8QxXgw/tg5kvRJXCk2b37ESOnJvOG3QXkSeE\nVlKyFxF9duTdQL0fOyhlPozOWzof8kCo2LGnfv2eKPgZeFGvN86/C/a3F2xHn//N\nK8nNTkos448GMJCzHB32h93Ac9JtGqbsW00Qjh0x6B+vnbpNcGEGbY52jiLzuxPW\nx6OoB5FsafwqI2LIqwLz4NpYqVjamHBROFYXRwYkHD0KXmeQCTrlMwEHnsyd8avb\nMl9VLMIPpGfKw4nRw+iOl6ma+axK7RUKV/FdZuB26/V8TqDgqJu7fHQi5AlKq4Y9\nxoiBp0f1AgMBAAECggEAANHhnUMpb2oOC9feJ5izvYktfjgpeQUz3ph4TvuhGVxu\n9ISe2+ruDvDlHXZpem+k4tY4uB4uc3k4YBEE1RuVjzKkl1WWNxPb7+ccTbtxlCR2\n0QmUfLt4LCEFJUm2cv4+hB1yUNBMGOV+6OWR9D6hBEHU9gRZ2YkZ1tFUarBTQCjo\noBDvB9rtvwN4XE0Qf8+UumFQ0IsFyNJK6yuDco/EDulT3YjS0/w206rhgn8s/UVw\ng6ediGbsKdtuJkEwRmGGdOcD67+37J+ZNZ/YLGERJs2ilCgm1Q2GR9sy+85wC/6Z\ndqa0N8JQjDZZ9+cHtGFpFv+u5GJDuYyl/egSP2806QKBgQD2FCkMgBU+3FSxxJSp\nTtJr4Hkv5NLN1GNvBwMuWdVbxGBPFW72jAjs8X2zr7FfJb1SxFe321Q7l1bpyr9g\nM/owWP8Ds3cMFXktUq1RV7fU5pnEkaz16GrfUp/qpwHBfeQGPhfBq6vn1BTQWcfE\nQJsGnKLwSwszFkFYBDPRQF7TXQKBgQC9/E6cj0b/GorvcOzXb456svT4+MV/EYS9\nmtE4WtwP2OxeeniI6Ch+ewRTx5lCCg27H5DVEOTwnxTf41Py0GKIeBhMvnM2AhBU\n2BaEPjiKHFFr9uq06vM6XTytLayZrVYovE7aJego/H1SS3IiLy7+uvgvD8PraCOe\n6K4xTE3VeQKBgQCykyjCyIQibPQNWTHkt62d2XU4W17bPaC25qjZTxm1EYouechf\npHmpsQnehsY53QJJ+PALHWBAKnBJEvfUUYPi6AKP5gGjREX+rPvXhseB+aJm8qxI\ne9RqoeQo/e8ZQklielb1FaaXguFj3XNJqPSXVL4tkNfcx+69d7c+x+7IhQKBgQCb\nSSH8B4QxOUG8amG7yVv84E8pPTU4IlqMG4HM/T8H2PeCVbo1tQR8NRKZY/jZqJwG\nict4y8FFB9IpGYdhXYBcKUU7XSOQTmmI38Kvvqe6A2FtzLmUvMGnv9O7fSypw6s7\nyobs+bTj41SPskkMteJEpQ/8b3dk747F8UuH0eWAiQKBgQCkfHIb1qXNso8Gde41\ngDntM8gclNI63aoMFnEZ7iTQMIW3c/Tk8o4BdcBuhKN2tLuoKY2aCNosFNSCGzKI\ne8ovpv8JGtQgPAL6/zePZUaCVO4/h1McF41ppkWi7XKoQmhwtBzcCS+mbo3WzeqJ\nq+ptVJ1tjFSmeNUgMgGDH+ZTZQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "notblue@coalbotbotchat-cppb.iam.gserviceaccount.com",
+  "client_id": "114827881889664571925",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/notblue%40coalbotbotchat-cppb.iam.gserviceaccount.com",
+  "region_id": "europe-west2"
+}

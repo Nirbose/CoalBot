@@ -1,11 +1,65 @@
 "use strict";
 
+const fs = require('fs');
+const Discord = require('discord.js');
+require('discord-reply');
 const config = require('../../config.json')
 const prefix = config.prefix;
 const Mee6LevelsApi = require("mee6-levels-api");
-const Discord = require('discord.js');
+const dialogflow = require('dialogflow');
+const uuid = require('uuid');
+const dialogConfig = require('../../dialogConfig.json')
+
+let talking = []
+let waiting;
 
 module.exports = async (client, message) => {
+
+	/////////////// ChatBot ///////////////
+	let input;
+	let rawdata = fs.readFileSync('./json/channel.json');
+    let json_channel = JSON.parse(rawdata);
+	if (message.channel.id === json_channel.chatbot.channel_id && !message.author.bot) {
+		clearTimeout(waiting);
+		if(message.mentions.has(client.user.id) && !talking.includes(message.author.username)) {
+			talking.push(message.author.username)
+		}
+		
+		waiting = setTimeout(() => {
+			talking = talking.filter(function(f) { return f !== message.author.username })
+		}, 10000);
+
+		input = message.content
+		
+		async function runSample(projectId = dialogConfig.project_id) {
+			const sessionId = uuid.v4();
+		   
+			const sessionClient = new dialogflow.SessionsClient({
+				keyFilename: './dialogConfig.json'
+			});
+			const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+
+			const request = {
+			  session: sessionPath,
+			  queryInput: {
+				text: {
+				  text: input,
+				  languageCode: 'fr-FR',
+				},
+			  },
+			};
+
+			const responses = await sessionClient.detectIntent(request);
+			const result = responses[0].queryResult;
+			message.channel.startTyping()
+			setTimeout(function(){
+				message.channel.stopTyping();
+				message.lineReply(`${result.fulfillmentText}`);
+			}, 800);
+		}
+		if(talking.includes(message.author.username)) runSample();
+	}
+
 
 	/////////////// Reaction Message ///////////////
 

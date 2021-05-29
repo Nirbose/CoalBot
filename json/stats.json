@@ -1,52 +1,50 @@
-[   
-    {
-        "year": 2021,
-        "month": 0,
-        "members": {
-            "join": 28,
-            "leave": 19
-        }
-    },
-    {
-        "year": 2021,
-        "month": 1,
-        "members": {
-            "join": 38,
-            "leave": 9
-        }
-    },
-    {
-        "year": 2021,
-        "month": 2,
-        "members": {
-            "join": 15,
-            "leave": 23
-        }
-    },
-    {
-        "year": 2021,
-        "month": 3,
-        "members": {
-            "join": 10,
-            "leave": 45
-        }
-    },
-
-    {
-        "year": 2021,
-        "month": 4,
-        "members": {
-            "join": 40,
-            "leave": 20
-
-        }
-    },
-    {
-        "year": 2021,
-        "month": 5,
-        "members": {
-            "join": 25,
-            "leave": 10
-        }
+[
+  {
+    "year": 2021,
+    "month": 0,
+    "members": {
+      "join": 28,
+      "leave": 19
     }
+  },
+  {
+    "year": 2021,
+    "month": 1,
+    "members": {
+      "join": 38,
+      "leave": 9
+    }
+  },
+  {
+    "year": 2021,
+    "month": 2,
+    "members": {
+      "join": 15,
+      "leave": 23
+    }
+  },
+  {
+    "year": 2021,
+    "month": 3,
+    "members": {
+      "join": 10,
+      "leave": 45
+    }
+  },
+  {
+    "year": 2021,
+    "month": 4,
+    "members": {
+      "join": 40,
+      "leave": 20
+    }
+  },
+  {
+    "year": 2021,
+    "month": 5,
+    "members": {
+      "join": 26,
+      "leave": 10
+    }
+  }
 ]

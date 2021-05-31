@@ -63,12 +63,11 @@ module.exports = async (client, message) => {
 
 	/////////////// Reaction Message ///////////////
 
-	const hello = ['salut ', 'yo ', 'bonjour ', 'bjr ', 'hey ', 'hello ', 'helo '];
+	const hello = ['salut', 'yo', 'bonjour', 'bjr', 'hey', 'hello', 'helo'];
 
-	const content = message.content.toLowerCase();
+	const content = message.content.toLowerCase().trim();
 	
 	for (let index = 0; index < hello.length; index++) {
-		if(client.user.id == message.author.id) return;
 		if(content.includes(hello[index])) {
 			message.react('👋');
 		}
@@ -76,6 +75,21 @@ module.exports = async (client, message) => {
 	}
 
 	/////////////// End Reaction Message ///////////////
+
+	// Auto moderation //
+	let rawdataModo = fs.readFileSync("./json/moderation.json");
+	let data = JSON.parse(rawdataModo);
+
+	let contentMsg = message.content.trim();
+	if(data.bans_words.length != 0) {
+		for(let index = 0; index < data.bans_words.length; index++) {
+			if(contentMsg.includes(data.bans_words[index])) {
+				message.channel.send("Vous avez dis un mot intredie...");
+			}
+			
+		}
+	} 
+	// End Auto moderation //
 
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -113,26 +127,3 @@ module.exports = async (client, message) => {
 	}
 
 };
-
-/////////////////////// Test ///////////////////////
-
-// Mention système.
-// module.exports = async (client, message) => {
-
-// 	if (message.channel.type === 'dm') {
-// 		return;
-// 	}
-
-// 	let msg = message.content.toLowerCase();
-
-// 	message.guild.roles.cache.forEach(role => {
-// 		if(role.id == '805868500211335219') {
-// 			role.members.forEach(member => {
-// 				if(msg.includes(member.user.username.toLowerCase())) {
-// 					member.send('Salut, tu as été mentioner par message.');
-// 					message.react('😲');
-// 				}
-// 			});
-// 		}
-// 	});
-// }

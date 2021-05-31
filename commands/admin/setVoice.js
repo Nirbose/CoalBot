@@ -6,6 +6,8 @@ module.exports = {
     categorie: "Admin",
     execute(message, arg) {
 
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.")
+
         if(!arg[0]) return message.channel.send("Il me faut l'id d'un vocal.");
         if(isNaN(arg[0])) return message.channel.send("L'id doit être composer de chiffres.")
 

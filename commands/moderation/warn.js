@@ -19,9 +19,6 @@ module.exports = {
 
         if(!reason) { reason = 'Pas de raison';}
 
-        // Vérification de permition
-        tools.verif(message, 2);
-
         let rawdata = fs.readFileSync("./json/warn.json");
         let data = JSON.parse(rawdata);
 

@@ -1,6 +1,5 @@
 {
-    "permition": [
-        {"user_id": "780814951228244018", "perm_number": 2},
-        {"user_id": "390925854768889857", "perm_number": 2}
-    ]
+  "bans_words": [
+    "con"
+  ]
 }

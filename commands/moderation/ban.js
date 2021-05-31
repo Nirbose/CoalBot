@@ -8,8 +8,8 @@ module.exports = {
     execute(message, args) {
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 
-        if(!message.member.hasPermission("BAN_MEMBERS")) {return message.channel.send("Vous n'avez pas la permission pour cette commande.")}
-        if(!message.guild.me.hasPermission("BAN_MEMBERS")) {return message.channel.send("Je n'ais pas les permissions pour exécuter cette commande.")}
+        if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("Vous n'avez pas la permition `BAN_MEMBERS`.")
+        if(!message.guild.me.hasPermission("BAN_MEMBERS")) return message.channel.send("Je n'ais pas la permition `BAN_MEMBERS`.")
 
         if(!args[0]) return message.channel.send('Veuillez spécifier un utilisateur.');
 
@@ -20,25 +20,33 @@ module.exports = {
 
         let reason = args.slice(1).join(" ");
 
-        if(!reason) {reason = 'Pas de raison';}
+        if(!reason) reason = 'Aucun raison';
 
         member.ban(`${reason}`)
         .catch(err => {
+            console.log(err)
             if(err) return message.channel.send('Un problème est survenu.')
         })
 
-        const banembed = new Discord.MessageEmbed()
+        const banEmbed = new Discord.MessageEmbed()
         .setTitle('Membre Bannis')
         .setColor('#3C3C3A')
         .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
         .addField('User Bannis', member)
         .addField('Bannis par', message.author)
         .addField('Raison', reason)
-        .setFooter(`${member} a été bannis`)
         .setTimestamp()
 
-        message.channel.send(banembed);
+        message.channel.send(banEmbed);
 
+        const banUserEmbed = new Discord.MessageEmbed()
+        .setAuthor(message.guild.name, message.guild.iconURL())
+        .setTitle('CoalStudio vous ont ban !')
+        .setColor('3C3C3A')
+        .setDescription(`Salut ${member}, tu as été banni par ${message.author} de CoalStudio pour la raison : \n${reason}`)
+        .setTimestamp()
+
+        member.send(banUserEmbed);
 
     }
 }

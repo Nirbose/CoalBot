@@ -19,17 +19,17 @@ module.exports = {
 
         if(!reason) { reason = 'Pas de raison';}
 
-        let rawdata = fs.readFileSync("./json/warn.json");
+        let rawdata = fs.readFileSync("./json/moderation.json");
         let data = JSON.parse(rawdata);
 
         console.log(data);
         
-        for (let index = 0; index < data.user.length; index++) {
+        for (let index = 0; index < data.users_warn.length; index++) {
             
-            if(member.id === data.user[index].user_id) {
-                number = data.user[index].nb_warn += 1;
+            if(member.id === data.users_warn[index].user_id) {
+                number = data.users_warn[index].nb_warn += 1;
                 let push = JSON.stringify(data, null, 2);
-                fs.writeFile('./json/warn.json', push, (err) => {
+                fs.writeFile('./json/moderation.json', push, (err) => {
                     if (err) throw err;
                     console.log('On ne peux pas écrir');
                 });
@@ -50,9 +50,9 @@ module.exports = {
             
         }
 
-        data.user.push({user_id: member.id, nb_warn: 1});
+        data.users_warn.push({user_id: member.id, nb_warn: 1});
         let push = JSON.stringify(data, null, 2);
-        fs.writeFile('./json/warn.json', push, (err) => {
+        fs.writeFile('./json/moderation.json', push, (err) => {
             if (err) throw err;
             console.log('On ne peux pas écrir');
         });

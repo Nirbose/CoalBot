@@ -22,21 +22,21 @@ module.exports = {
         // Vérification de permition
         tools.verif(message, 2);
 
-        let rawdata = fs.readFileSync("./json/warn.json");
+        let rawdata = fs.readFileSync("./json/moderation.json");
         let data = JSON.parse(rawdata);
 
-        for (let i = 0; i < data.user.length; i++) {
-            const element = data.user[i];
+        for (let i = 0; i < data.users_warn.length; i++) {
+            const element = data.users_warn[i];
             if(element.user_id == member.id) {
                 
                 element.nb_warn -= 1;
 
                 if (element.nb_warn == 0) {
-                    data.user.splice(i, 1);
+                    data.users_warn.splice(i, 1);
 
                     let remove = JSON.stringify(data, null, 2);
 
-                    fs.writeFile('./json/warn.json', remove, (err) => {
+                    fs.writeFile('./json/moderation.json', remove, (err) => {
                         if (err) throw err;
                         console.log('Data written to file');
                     });
@@ -58,7 +58,7 @@ module.exports = {
                 } else {
                     let remove = JSON.stringify(data, null, 2);
 
-                    fs.writeFile('./json/warn.json', remove, (err) => {
+                    fs.writeFile('./json/moderation.json', remove, (err) => {
                         if (err) throw err;
                         console.log('Data written to file');
                     });

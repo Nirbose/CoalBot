@@ -16,9 +16,29 @@ module.exports = {
         let rawdata = fs.readFileSync("./json/reactionRole.json");
         let data = JSON.parse(rawdata);
         let field = [];
-
         if(mode == 'list') {
-            //lister tout les messages et leurs reac associer
+            var names=[...new Set(data.message.map(a=>a.messageId))];
+            names.forEach(function(item){
+              indexes=data.message.map(function(item,i){
+                 item["index"]=i;
+                 return item;
+              })
+              .filter(a=>a.messageId==item)
+              .map(a=>a.index);
+
+              for(let i = 0; i < indexes.length; i++) {
+                field.push({name: 'Emoji : Role : Mode', value: `L'emojie ${data.message[indexes[i]].emoji} ${data.message[indexes[i]].mode} le role <@&${data.message[indexes[i]].role}>`})
+              }
+
+              const embed = new Discord.MessageEmbed()
+              .setColor('#3C3C3A')
+              .setTitle('RecapList')
+              .addFields({name: 'Message : Channel', value: `${data.message[indexes[0]].messageId} Dans <#${data.message[indexes[0]].channelId}>`},field)
+              .setTimestamp()
+      
+              message.channel.send(embed)
+            });
+
         } else {
 
             try {

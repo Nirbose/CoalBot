@@ -1,5 +1,5 @@
 module.exports = client => {
   console.log(
-    `ok`
+    `Le bot est ON !`
   );
 };

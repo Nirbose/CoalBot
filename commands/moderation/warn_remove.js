@@ -1,5 +1,7 @@
-const Discord = require('discord.js')
-const fs = require('fs')
+const Discord = require('discord.js');
+const fs = require('fs');
+const sqlite3 = require('sqlite3');
+const db = new sqlite3.Database('./db/database.db');
 
 module.exports = {
     name: "warn_remove",
@@ -19,27 +21,13 @@ module.exports = {
 
         if(!reason) reason = 'Pas de raison';
 
-        // Vérification de permition
-        tools.verif(message, 2);
+        let find = false;
 
-        let rawdata = fs.readFileSync("./json/moderation.json");
-        let data = JSON.parse(rawdata);
+        db.all(`SELECT * FROM warn`, (err, rows) => {
 
-        for (let i = 0; i < data.users_warn.length; i++) {
-            const element = data.users_warn[i];
-            if(element.user_id == member.id) {
-                
-                element.nb_warn -= 1;
-
-                if (element.nb_warn == 0) {
-                    data.users_warn.splice(i, 1);
-
-                    let remove = JSON.stringify(data, null, 2);
-
-                    fs.writeFile('./json/moderation.json', remove, (err) => {
-                        if (err) throw err;
-                        console.log('Data written to file');
-                    });
+            rows.forEach(element => {
+                if(element.userId == member.id) {
+                    db.prepare(`UPDATE warn SET nb_warn = ${element.nb_warn -= 1} WHERE id = ${element.id}`).run()
 
                     const embed = new Discord.MessageEmbed()
                     .setColor('#3C3C3A')
@@ -53,35 +41,17 @@ module.exports = {
                     .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
                     .setTimestamp()
 
-                    return message.channel.send(embed);
+                    message.channel.send(embed)
 
-                } else {
-                    let remove = JSON.stringify(data, null, 2);
-
-                    fs.writeFile('./json/moderation.json', remove, (err) => {
-                        if (err) throw err;
-                        console.log('Data written to file');
-                    });
-
-                    const embed = new Discord.MessageEmbed()
-                    .setColor('#3C3C3A')
-                    .setTitle('Warn Remove')
-                    .addFields(
-                        {name: 'User Warn Remove', value: `${member}`},
-                        {name: 'Warn Remove par', value: `${message.author}`},
-                        {name: 'Raison', value: `${reason}`},
-                        {name: "Nombre de Warn :", value: `${element.nb_warn}`}
-                    )
-                    .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-                    .setTimestamp()
-
-                    return message.channel.send(embed);
+                    return find = true;
                 }
+            });
 
-            }
-            
+        });
+
+        if(find) {
+            return;
         }
-
-        message.channel.send("L'utilisateur n'existe pas.")
+        message.channel.send("L'utilisateur n'existe pas.");
     }
 }

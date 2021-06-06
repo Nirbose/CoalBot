@@ -15,6 +15,23 @@ let waiting;
 
 module.exports = async (client, message) => {
 
+	/////////////// BUMP COUNT ///////////////
+	if(message.content == "!d bump") {
+
+		const filter = m => {
+			if(m.author.id == "780814951228244018") {
+				if(m.embeds) {
+					if(m.embeds.description.includes('👍')) {
+						message.channel.send('BUMP accepter !')
+					}
+				}
+			}
+		}
+
+		message.channel.awaitMessages(filter, {max: 5, time: 15000, errors: ['time', 'limit']}).catch(collected => console.log('ok'))
+
+	}
+
 	/////////////// ChatBot ///////////////
 	let input;
 	let rawdata = fs.readFileSync('./json/channel.json');

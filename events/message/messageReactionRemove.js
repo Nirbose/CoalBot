@@ -1,25 +1,25 @@
 const fs = require('fs');
 const Discord = require('discord.js');
+const sqlite3 = require('sqlite3');
+let db = new sqlite3.Database("./db/database.db")
 
 module.exports = async (client, messageReaction, user) => {
-
-    let rawdata = fs.readFileSync("./json/reactionRole.json");
-    let data = JSON.parse(rawdata);
-
     //check if from bot
 
     const message = messageReaction.message;
     const member = message.guild.members.cache.get(user.id);
 
     if(user.bot) return;
-    for (let index = 0; index < data.message.length; index++) {
-        if(message.id == data.message[index].messageId && message.channel.id == data.message[index].channelId && messageReaction.emoji.name == data.message[index].emoji) {
-            const role = message.guild.roles.cache.get(data.message[index].role)
-            if(data.message[index].mode == 'retirer') {
-                member.roles.add(role)
-            } else {
-                member.roles.remove(role)
+    db.all(`SELECT * FROM role`, (err, rows) => {
+        rows.forEach(element => {
+            if(message.id == element.messageId && message.channel.id == element.channelId && messageReaction.emoji.name == element.emoji) {
+                const role = message.guild.roles.cache.get(element.role)
+                if(element.mode == 'retirer') {
+                    member.roles.add(role)
+                } else {
+                    member.roles.remove(role)
+                }
             }
-        }
-    }
+        })
+    });
 }

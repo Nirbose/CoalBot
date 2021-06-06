@@ -24,12 +24,28 @@ module.exports = {
 
         db.all(`SELECT * FROM warn`, (err, rows) => {
             let find = false;
-            console.log(rows)
 
             rows.forEach(element => {
                 if(element.userId ==  member.id) {
+
                     // Code
-                    db.run(`UPDATE warn SET nb_warn = ?, reason = ? WHERE id = ?`, [rows.nb_warn += 1, reason, rows.id])
+                    db.run(`UPDATE warn SET nb_warn = ${element.nb_warn+=1}, reason = '${reason}' WHERE id = ${element.id}`)
+                    
+                    // Embed
+                    const embed = new Discord.MessageEmbed()
+                    .setColor('#3C3C3A')
+                    .setTitle('Warn')
+                    .addFields(
+                        {name: 'User Warn', value: `${member}`},
+                        {name: 'Warn par', value: `${message.author}`},
+                        {name: 'Raison', value: `${reason}`},
+                        {name: "Nombre de Warn :", value: `${element.nb_warn}`}
+                    )
+                    .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+                    .setTimestamp()
+            
+                    message.channel.send(embed)
+
 
                     return find = true;
                 }
@@ -43,23 +59,27 @@ module.exports = {
                 if(err) {
                     console.log(err);
                 }
+
+                    // Embed
+                    const embed = new Discord.MessageEmbed()
+                    .setColor('#3C3C3A')
+                    .setTitle('Warn')
+                    .addFields(
+                        {name: 'User Warn', value: `${member}`},
+                        {name: 'Warn par', value: `${message.author}`},
+                        {name: 'Raison', value: `${reason}`},
+                        {name: "Nombre de Warn :", value: `1`}
+                    )
+                    .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+                    .setTimestamp()
+            
+                    message.channel.send(embed)
+
+
+                    return find = true;
+
             }).run()
         })
-
-        // Embed
-        const embed = new Discord.MessageEmbed()
-        .setColor('#3C3C3A')
-        .setTitle('Warn')
-        .addFields(
-            {name: 'User Warn', value: `${member}`},
-            {name: 'Warn par', value: `${message.author}`},
-            {name: 'Raison', value: `${reason}`},
-            {name: "Nombre de Warn :", value: `1`}
-        )
-        .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-        .setTimestamp()
-
-        message.channel.send(embed)
 
     }
 }

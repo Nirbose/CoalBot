@@ -1,6 +1,9 @@
 const fs = require('fs');
 const Discord = require('discord.js')
 
+const sqlite3 = require('sqlite3');
+let db = new sqlite3.Database("./db/database.db")
+
 module.exports = {
     name: "warn",
     description:"Permet de mettre un avertissement",
@@ -19,43 +22,31 @@ module.exports = {
 
         if(!reason) { reason = 'Pas de raison';}
 
-        let rawdata = fs.readFileSync("./json/moderation.json");
-        let data = JSON.parse(rawdata);
+        db.all(`SELECT * FROM warn`, (err, rows) => {
+            let find = false;
+            console.log(rows)
 
-        console.log(data);
-        
-        for (let index = 0; index < data.users_warn.length; index++) {
-            
-            if(member.id === data.users_warn[index].user_id) {
-                number = data.users_warn[index].nb_warn += 1;
-                let push = JSON.stringify(data, null, 2);
-                fs.writeFile('./json/moderation.json', push, (err) => {
-                    if (err) throw err;
-                    console.log('On ne peux pas écrir');
-                });
+            rows.forEach(element => {
+                if(element.userId ==  member.id) {
+                    // Code
+                    db.run(`UPDATE warn SET nb_warn = ?, reason = ? WHERE id = ?`, [rows.nb_warn += 1, reason, rows.id])
 
-                const embed = new Discord.MessageEmbed()
-                .setColor('#3C3C3A')
-                .setTitle('Warn')
-                .addFields(
-                    {name: 'User Warn', value: `${member}`},
-                    {name: 'Warn par', value: `${message.author}`},
-                    {name: 'Raison', value: `${reason}`},
-                    {name: "Nombre de Warn :", value: `${number}`}
-                )
-                .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-                .setTimestamp()
-                return message.channel.send(embed)
+                    return find = true;
+                }
+            });
+
+            if(find) {
+                return;
             }
-            
-        }
 
-        data.users_warn.push({user_id: member.id, nb_warn: 1});
-        let push = JSON.stringify(data, null, 2);
-        fs.writeFile('./json/moderation.json', push, (err) => {
-            if (err) throw err;
-            console.log('On ne peux pas écrir');
-        });
+            db.prepare(`INSERT INTO warn(userId, nb_warn, reason) VALUES(?, ?, ?)`, [member.id, 1, reason], err => {
+                if(err) {
+                    console.log(err);
+                }
+            }).run()
+        })
+
+        // Embed
         const embed = new Discord.MessageEmbed()
         .setColor('#3C3C3A')
         .setTitle('Warn')

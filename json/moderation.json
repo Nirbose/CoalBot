@@ -2,6 +2,7 @@
   "bans_words": [
     "con"
   ],
+  
   "users_warn": [
     {
       "user_id": 123,

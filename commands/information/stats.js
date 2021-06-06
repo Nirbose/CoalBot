@@ -5,7 +5,7 @@ const QuickChart = require('quickchart-js');
 module.exports = {
     name: "stats",
     description: "Test",
-    categorie: "Other",
+    categorie: "Information",
     execute(message, arg) {
         const chart = new QuickChart();
         // Liste de tout les mois (merci Not)
@@ -104,20 +104,20 @@ module.exports = {
                         joinStat.push(json_stats[i].members.join)
                         leaveStat.push(json_stats[i].members.leave)
                     }
-                } 
-                //si le nombre total de mois pas egale au nombre de mois demander on annule
-                if(count != monthList.length) {
-                    message.channel.send(`Certaines statistiques sont manquante (${monthList.length-count}mois)`) 
-                    return;
-                }
-                // Si il n'y a pas de mois avant celui actuelle il met les comptes a 0
-                if(!json_stats[i - 1]) {
-                    json_stats[i - 1] = {
-                        year: json_stats[i].year,
-                        mouth: json_stats[i].month,
-                        members: {
-                            join: 0,
-                            leave: 0
+                    //si le nombre total de mois pas egale au nombre de mois demander on annule
+                    if(count != monthList.length) {
+                        message.channel.send(`Certaines statistiques sont manquante (${monthList.length-count}mois)`) 
+                        return;
+                    }
+                    // Si il n'y a pas de mois avant celui actuelle il met les comptes a 0
+                    if(!json_stats[i - 1]) {
+                        json_stats[i - 1] = {
+                            year: json_stats[i].year,
+                            mouth: json_stats[i].month,
+                            members: {
+                                join: 0,
+                                leave: 0
+                            }
                         }
                     }
                 }

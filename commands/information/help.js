@@ -6,7 +6,7 @@ const prefix = config.prefix;
 module.exports = {
     name: "help",
     description:"Affiche la liste de toute les commandes",
-    categorie: "Other",
+    categorie: "Information",
     execute(message, arg) {
 
         let noFind = 1;

@@ -18,17 +18,26 @@ module.exports = async (client, message) => {
 	/////////////// BUMP COUNT ///////////////
 	if(message.content == "!d bump") {
 
-		const filter = m => {
-			if(m.author.id == "780814951228244018") {
-				if(m.embeds) {
-					if(m.embeds.description.includes('👍')) {
-						message.channel.send('BUMP accepter !')
-					}
+		const embed = new Discord.MessageEmbed()
+			.setTitle('test')
+			.setDescription('petit test tranquille 👍.')
+			message.channel.send(embed)
+
+		client.setTimeout(() => {
+			let lastMsg = message.guild.members.cache.get('830469796784635914').lastMessage;
+			
+			if(lastMsg != null) {
+				
+				if(lastMsg.embeds[0] == null) return;
+
+				let msg = lastMsg.embeds[0].description;
+
+				if(msg.includes('👍')) {
+					message.channel.send('Cela fonctionne !')
 				}
 			}
-		}
-
-		message.channel.awaitMessages(filter, {max: 5, time: 15000, errors: ['time', 'limit']}).catch(collected => console.log('ok'))
+		
+		}, 1000)
 
 	}
 

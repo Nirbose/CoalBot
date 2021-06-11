@@ -11,6 +11,27 @@ module.exports = {
 
         let noFind = 1;
 
+        if(!arg[0]) {
+            let categorie;
+            let names = [];
+
+            const embed = new Discord.MessageEmbed()
+            .setTitle("Help")
+            .setDescription(`Voici toute les commandes que possède ${message.client.user.username}`)
+
+            message.client.commands.forEach(elements => {
+
+                if(elements.categorie != categorie) {
+                    categorie = elements.categorie;
+                    names.push(elements.name);
+
+                    embed.addField(categorie, names.toString().replace(/,/g, '\n'), true)
+
+                }
+            })
+            message.channel.send(embed);
+        }
+
         if(arg) {
             const commandName = arg.join(' ');
 
@@ -32,7 +53,6 @@ module.exports = {
                 }
             });
 
-            if(noFind) message.reply("La commande demandée n'existe pas.");
         }
 
     }

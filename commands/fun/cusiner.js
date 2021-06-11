@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'cuisiner',
     description: 'Commande pour cuisiner.',
-    categorie: "fun",
+    categorie: "Fun",
     execute(message, args) {
 
         if(args.length) {

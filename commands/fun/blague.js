@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 module.exports = {
     name: "joke",
     description: "Commande pour sortir une blague.",
-    categorie: "fun",
+    categorie: "Fun",
     execute(message) {
         fetch('https://www.blagues-api.fr/api/random', {
             headers: {

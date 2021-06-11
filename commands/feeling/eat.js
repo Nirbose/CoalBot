@@ -3,7 +3,7 @@ const tenor = require('../../assets/function/tenor_api.js');
 module.exports = {
     name: "eat",
     description: "Cette commande permet de faire un bisous à quelqu'un.",
-    categorie: "feeling",
+    categorie: "Feeling",
     execute(message, args) {
 
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);

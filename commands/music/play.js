@@ -30,7 +30,7 @@ module.exports = {
 
             // On lance la musique
             const dispatcher = serverQueue.connection
-            .play(ytdl(song.url, { filter: 'audioonly' }))
+            .play(ytdl(song.link, { filter: 'audioonly' }))
             .on("finish", () => { // On écoute l'événement de fin de musique
                     serverQueue.songs.shift(); // On passe à la musique suivante quand la courante se termine
                     play(guild, serverQueue.songs[0]);

@@ -53,27 +53,19 @@ module.exports = async (client, member) => {
     let d_year = d.getFullYear();
     let d_mouth = d.getMonth() + 1;
 
-    let rawdata = fs.readFileSync('./json/stats.json');
-    let json_stats = JSON.parse(rawdata);
+    const sqlite3 = require('sqlite3');
+    let db = new sqlite3.Database("./db/database.db")
+    let find;
 
-    for(let i = 0; i < json_stats.length; i++) {
-        if(json_stats[i].year == d_year && json_stats[i].month == d_mouth) {
-            json_stats[i].members.join++;
-
-            let push = JSON.stringify(json_stats, null, 2);
-            fs.writeFile('./json/stats.json', push, (err) => {
-                if (err) throw err;
-                console.log('On ne peux pas écrir');
-            });
-            return;
-        }
-    }
-
-    json_stats.push({"year": d_year, "month": d_mouth, "members": {"join": 1, "leave": 0}})
-    let push = JSON.stringify(json_stats, null, 2);
-    fs.writeFile('./json/stats.json', push, (err) => {
-        if (err) throw err;
-        console.log('On ne peux pas écrir');
-    });
-    
+    db.all(`SELECT * FROM stats`, (err, rows) => {
+        find = false;
+        rows.forEach(element => {
+            if(element.month == d_mouth && element.year == d_year) {
+                db.run(`UPDATE stats SET joine = ${element.joine+=1} WHERE id = ${element.id}`);
+                find = true;
+            }
+        })
+        if(find == false) db.run(`INSERT INTO stats (year, month, joine, leave) VALUES (${d_year}, ${d_mouth}, '1', '0')`);
+        
+    })
 }

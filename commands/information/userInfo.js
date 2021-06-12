@@ -9,7 +9,7 @@ module.exports = {
     execute(message, arg) {
 
         const embed = new Discord.MessageEmbed();
-        let roles = "";
+        let roles = [];
 
         if(!arg[0]) {
 
@@ -17,18 +17,32 @@ module.exports = {
 
             info.roles.cache.forEach(element => {
                 if(element.name != "@everyone") {
-                    roles += element.name + " "
+                    roles.push("<@&"+element.id+">");
                 }
                 
             });
 
+            let flags = info.user.flags.toArray();
+            let userFlags = [];
+
+            for(let i = 0; i < flags.length; i++) {
+                let emojiID = message.client.emojis.cache.find(e => e.name == flags[i]);
+                userFlags.push(`${emojiID}`)
+            }
+
+            let date = new Date(info.user.createdTimestamp * 1000);
+
+            // Création de l'embed.
             embed.setTitle("Information sur " + info.user.username)
             .setColor('3C3C3A')
             .setThumbnail(info.user.avatarURL())
             .addFields(
-                {name: "Pseudo :", value: info.user.username, inline: true},
-                {name: "Id :", value: info.user.id, inline: true},
-                {name: "Roles :", value: roles}
+                {name: "Pseudo :", value: `\`\`\` ${info.user.username} \`\`\``, inline: true},
+                {name: "Id :", value: `\`\`\`${info.user.id}\`\`\``, inline: true},
+                {name: "Statue :", value: `\`\`\`${info.user.presence.status}\`\`\``, inline: true},
+                {name: "Création compte :", value: `\`\`\`${date.toLocaleString()}\`\`\``},
+                {name: "Badges :", value: `${userFlags.toString().replace(/,/g, '')}`, inline: true},
+                {name: "Roles :", value: roles.toString()}
             )
 
             

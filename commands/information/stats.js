@@ -16,10 +16,9 @@ module.exports = {
         let d = new Date();
         let d_year = d.getFullYear();
         let d_mouth = d.getMonth() + 1;
-        // Ouvertur du JSON des stats
-        let rawdata = fs.readFileSync('./json/stats.json');
-        let json_stats = JSON.parse(rawdata);
-
+        const sqlite3 = require('sqlite3');
+        let db = new sqlite3.Database("./db/database.db")
+        
         function monthNameToNum(monthname) {
             let month = mouths.indexOf(monthname.toLowerCase());
             return month ? month + 1 : 0;
@@ -27,111 +26,118 @@ module.exports = {
 
         // Si il n'y a pas d'argument on récup les bon stats (celle du mois et de l'anne en cour).
         if(arg.length == 0) {
-            for(let i = 0; i < json_stats.length; i++) {
-                if(json_stats[i].year == d_year && json_stats[i].month == d_mouth) {
-                    // Si il n'y a pas de mois avant celui actuelle il met les comptes a 0
-                    if(!json_stats[i - 1]) {
-                        json_stats[i - 1] = {
-                            year: json_stats[i].year,
-                            mouth: json_stats[i].month,
-                            members: {
-                                join: 0,
-                                leave: 0
-                            }
+            let last;
+            console.log('enter')
+            let joinLast;
+            let leaveLast;
+            db.all(`SELECT * FROM stats`, (err, rows) => {
+                rows.forEach(element => {
+                    if(element.month == d_mouth - 1 && element.year == d_year) {
+                        last = element.id;
+                        joinLast = element.joine
+                        leaveLast = element.leave
+                    }
+                    if(element.month == d_mouth && element.year == d_year) {
+                        if(last == undefined) {
+                            chart.setConfig({
+                                type: 'line',
+                                data: { 
+                                    labels: [mouths[d_mouth - 1]],
+                                    datasets: [
+                                    {
+                                        label: 'Arrivant',
+                                        data: [element.joine],
+                                        backgroundColor: 'rgba(117,117,117,0.6)',
+                                        borderColor: 'rgba(117,117,117,0.6)'
+                                    },
+                                    { 
+                                        label: 'Départ',
+                                        data: [element.leave],
+                                        backgroundColor: 'rgba(214,214,214,0.9)',
+                                        borderColor: 'rgba(214,214,214,0.9)'
+                                    }
+                                ]},
+                            });
+                            const embed = new Discord.MessageEmbed()
+                            .setColor('3C3C3A')
+                            .setTitle(`📊 - ${message.guild.name} - Stats`)
+                            .setDescription(`Stats du mois de ${mouths[d_mouth - 1]}.`)
+                            .addFields(
+                                {name: "📈 Arriver", value: element.joine, inline: true},
+                                {name: "📉 Départ", value: element.leave, inline: true},
+                            )
+                            .setImage(chart.getUrl())
+                            .setTimestamp()
+                            message.channel.send(embed)
+                        } else {
+                            chart.setConfig({
+                                type: 'line',
+                                data: { 
+                                    labels: [mouths[d_mouth - 1],mouths[d_mouth - 2]],
+                                    datasets: [
+                                    { 
+                                        label: 'Arrivant',
+                                        data: [element.joine, joinLast],
+                                        backgroundColor: 'rgba(117,117,117,0.6)',
+                                        borderColor: 'rgba(117,117,117,0.6)'
+                                        
+                                    },
+                                    { 
+                                        label: 'Départ',
+                                        data: [element.leave, leaveLast],
+                                        backgroundColor: 'rgba(214,214,214,0.9)',
+                                        borderColor: 'rgba(214,214,214,0.9)'
+                                    }
+                                ]},
+                            });
+                            const embed = new Discord.MessageEmbed()
+                            .setColor('3C3C3A')
+                            .setTitle(`📊 - ${message.guild.name} - Stats`)
+                            .setDescription(`Stats du mois de ${mouths[d_mouth - 2]} a ${mouths[d_mouth - 1]}.`)
+                            .addFields(
+                                {name: "📈 Arriver", value: element.joine, inline: true},
+                                {name: "📉 Départ", value: element.leave, inline: true},
+                                {name: "Mois précedent", value: "\u200B", inline: false},
+                                {name: "📈 Arriver", value: joinLast, inline: true},
+                                {name: "📉 Départ", value: leaveLast, inline: true}
+                            )
+                            .setImage(chart.getUrl())
+                            .setTimestamp()
+                            message.channel.send(embed)
                         }
                     }
-    
-                    chart.setConfig({
-                        type: 'line',
-                        data: { 
-                            labels: [mouths[d_mouth - 1],
-                            mouths[d_mouth - 2]],
-                            datasets: [
-                            { 
-                                label: 'Arrivant',
-                                data: [json_stats[i].members.join, json_stats[i - 1].members.join],
-                                backgroundColor: 'rgba(117,117,117,0.6)',
-                                borderColor: 'rgba(117,117,117,0.6)'
-                                
-                            },
-                            { 
-                                label: 'Départ',
-                                data: [json_stats[i].members.leave, json_stats[i - 1].members.leave],
-                                backgroundColor: 'rgba(214,214,214,0.9)',
-                                borderColor: 'rgba(214,214,214,0.9)'
-                            }
-                        ]},
-                    });
-    
-                    // Création de l'embed avec toute les informations.
-                    const embed = new Discord.MessageEmbed()
-                    .setColor('3C3C3A')
-                    .setTitle(`📊 - ${message.guild.name} - Stats`)
-                    .setDescription(`Stats du mois de ${mouths[d_mouth - 1]}.`)
-                    .addFields(
-                        {name: "📈 Arriver", value: json_stats[i].members.join, inline: true},
-                        {name: "📉 Départ", value: json_stats[i].members.leave, inline: true},
-                        {name: "Mois précedent", value: "\u200B", inline: false},
-                        {name: "📈 Arriver", value: json_stats[i - 1].members.join, inline: true},
-                        {name: "📉 Départ", value: json_stats[i - 1].members.leave, inline: true}
-                    )
-                    .setImage(chart.getUrl())
-                    .setTimestamp()
-    
-                    message.channel.send(embed)
-                }
-            }
-
-        //stat avec args
-        } else if (month1 != undefined && month2 != undefined) {
-            //si besoin d'explication demande moi meme moi je trouve c'est le bordel
+                })
+            });
+        } else if (arg[0] != undefined && arg[1] != undefined) {
             monthName1 = monthNameToNum(month1);
             monthName2 = monthNameToNum(month2);
+            let total = 0;
+            let field = [];
             let monthList = [];
-            let monthNameList = [];
-            let count = 0;
             let joinStat = [];
             let leaveStat = [];
-
-            for(let x = monthName1; x < monthName2; x++ ){ 
-                monthList.push(x)
-                monthNameList.push(mouths[x])
-            }
-            if((month1 != month2) && (mouths.includes(month1) && mouths.includes(month2))) {
-                for(let i = 0; i < json_stats.length; i++) {
-                    if(json_stats[i].year == d_year && monthList.includes(json_stats[i].month)) {
-                        count++;
-                        joinStat.push(json_stats[i].members.join)
-                        leaveStat.push(json_stats[i].members.leave)
-                    }
-                    //si le nombre total de mois pas egale au nombre de mois demander on annule
-                    if(count != monthList.length) {
-                        message.channel.send(`Certaines statistiques sont manquante (${monthList.length-count}mois)`) 
-                        return;
-                    }
-                    // Si il n'y a pas de mois avant celui actuelle il met les comptes a 0
-                    if(!json_stats[i - 1]) {
-                        json_stats[i - 1] = {
-                            year: json_stats[i].year,
-                            mouth: json_stats[i].month,
-                            members: {
-                                join: 0,
-                                leave: 0
-                            }
-                        }
-                    }
-                }
+            console.log(mouths.includes(month1))
+            if(!mouths.includes(month1) || !mouths.includes(month2)) return message.channel.send("Hmm, il y'a un probleme avec le nom d'un des mois")
+            db.all(`SELECT * FROM stats WHERE month > ${monthName1} AND month <= ${monthName2}`, (err, rows) => {
+                rows.forEach(element => {
+                    total++ 
+                    monthList.push(mouths[element.month-1])
+                    joinStat.push(element.joine)
+                    leaveStat.push(element.leave)
+                    field.push({name: `Pour le mois de ${mouths[element.month-1]}`, value: `📈 ${element.joine} Arrivant, 📉 ${element.leave} Départ`})
+                })
+                if(total != monthName2-monthName1) return message.channel.send(`Data manquante`)
 
                 chart.setConfig({
                     type: 'line',
                     data: { 
-                        labels: monthNameList,
+                        labels: monthList.reverse(),
                         datasets: [
                         { 
-                            label: 'Arriver',
+                            label: 'Arrivant',
                             data: joinStat,
-                            backgroundColor: 'rgba(117,117,117,0.5)',
-                            borderColor: 'rgba(117,117,117,0.5)'
+                            backgroundColor: 'rgba(117,117,117,0.6)',
+                            borderColor: 'rgba(117,117,117,0.6)'
                             
                         },
                         { 
@@ -142,34 +148,19 @@ module.exports = {
                         }
                     ]},
                 });
-    
-    
-                // Création de l'embed avec toute les informations.
+
                 const embed = new Discord.MessageEmbed()
                 .setColor('3C3C3A')
                 .setTitle(`📊 - ${message.guild.name} - Stats`)
                 .setDescription(`Stats du mois de ${month1} a ${month2}.`)
-                // .addFields(
-                //     {name: "📈 Arrivant", value: json_stats[i].members.join, inline: true},
-                //     {name: "📉 Départ", value: json_stats[i].members.leave, inline: true},
-                //     {name: "\u200B", value: "```Mois dernier :``` \u200B", inline: false},
-                //     {name: "📈 Arrivant", value: json_stats[i - 1].members.join, inline: true},
-                //     {name: "📉 Départ", value: json_stats[i - 1].members.leave, inline: true}
-                // )
-               .setDescription(`Stats du mois de ${mouths[d_mouth - 1]}.`)
-                .addFields(
-                    {name: "📈 Arrivant", value: json_stats[i].members.join, inline: true},
-                    {name: "📉 Départ", value: json_stats[i].members.leave, inline: true},
-                    {name: "\u200B", value: "```Mois dernier :``` \u200B", inline: false},
-                    {name: "📈 Arrivant", value: json_stats[i - 1].members.join, inline: true},
-                    {name: "📉 Départ", value: json_stats[i - 1].members.leave, inline: true}
-                )
-
+                .addFields(field.reverse())
                 .setImage(chart.getUrl())
                 .setTimestamp()
-    
                 message.channel.send(embed)
-            } else message.channel.send("La commande ne correspond pas au shema suivant **!stats {mois1} {mois2}**")
+            })
+        } else {
+            message.channel.send('Commande invalide, le format doit etre `!stats {mois} {mois}` ou `!stats`')
         }
+        //stat avec args
     }
 }

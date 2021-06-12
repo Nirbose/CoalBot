@@ -9,6 +9,7 @@ module.exports = client => {
     db.prepare(`CREATE TABLE IF NOT EXISTS wordBanned (id INTEGER, word VACHAR(255), userId VACHAR(255), PRIMARY KEY (id))`).run().finalize()
     db.prepare(`CREATE TABLE IF NOT EXISTS bump (id INTEGER, userId VACHAR(255), date TEXT, PRIMARY KEY (id))`).run().finalize()
     db.prepare(`CREATE TABLE IF NOT EXISTS channels (id INTEGER, name VACHAR(255), channelId VACHAR(255), PRIMARY KEY (id))`).run().finalize()
+    db.prepare(`CREATE TABLE IF NOT EXISTS stats (id INTEGER, year VACHAR(255), month VACHAR(255), joine INT, leave INT, PRIMARY KEY (id))`).run().finalize()
 
     db.close();
 

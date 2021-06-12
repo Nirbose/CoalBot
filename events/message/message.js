@@ -15,32 +15,6 @@ let waiting;
 
 module.exports = async (client, message) => {
 
-	/////////////// BUMP COUNT ///////////////
-	if(message.content == "!d bump") {
-
-		const embed = new Discord.MessageEmbed()
-			.setTitle('test')
-			.setDescription('petit test tranquille 👍.')
-			message.channel.send(embed)
-
-		client.setTimeout(() => {
-			let lastMsg = message.guild.members.cache.get('830469796784635914').lastMessage;
-			
-			if(lastMsg != null) {
-				
-				if(lastMsg.embeds[0] == null) return;
-
-				let msg = lastMsg.embeds[0].description;
-
-				if(msg.includes('👍')) {
-					message.channel.send('Cela fonctionne !')
-				}
-			}
-		
-		}, 1000)
-
-	}
-
 	/////////////// ChatBot ///////////////
 	let input;
 	let rawdata = fs.readFileSync('./json/channel.json');

@@ -12,7 +12,7 @@ module.exports = {
         let noFind = 1;
 
         if(!arg[0]) {
-            let categorie;
+            let categorie = "";
             let names = [];
 
             const embed = new Discord.MessageEmbed()
@@ -20,14 +20,15 @@ module.exports = {
             .setDescription(`Voici toute les commandes que possède ${message.client.user.username}`)
 
             message.client.commands.forEach(elements => {
-
-                if(elements.categorie != categorie) {
-                    categorie = elements.categorie;
-                    names.push(elements.name);
-
-                    embed.addField(categorie, names.toString().replace(/,/g, '\n'), true)
-
+                if(categorie != elements.categorie) {
+                    if(names.length != 0) {
+                        embed.addField(categorie, names.toString().replace(/,/g, '\n'), true)
+                        names = [];
+                    }
+                    
                 }
+                names.push(elements.name);
+                categorie = elements.categorie
             })
             message.channel.send(embed);
         }

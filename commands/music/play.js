@@ -10,6 +10,8 @@ module.exports = {
     aliases: ['p'],
     categorie: "Music",
     execute(message, args) {
+        console.log(message.client.music);
+
         if(!message.member.voice.channel) return message.channel.send('Vous devez être connectez dans un voval pout effectuer cette commande.');
 
         if(!args) return message.channel.send("Vous devez me donner la musique a lancer.")
@@ -36,7 +38,8 @@ module.exports = {
                             
                         }
                     } else {
-                        console.log(err.response)
+                        console.log(err.response);
+                        message.channel.send(`\`\`\` ${err.response} \`\`\``);
                     }
     
                 });

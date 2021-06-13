@@ -8,6 +8,12 @@ module.exports = {
     execute(message) {
         
         let guild = message.guild;
+        let roles = "";
+
+        guild.roles.cache.forEach(element => {
+            if(element.name == "@everyone") return;
+            roles += `${element}  `;
+        });
 
         const embed = new Discord.MessageEmbed()
         .setColor('3C3C3A')
@@ -15,9 +21,17 @@ module.exports = {
         .setDescription(`Voici toute les informations sur **${guild.name}** !`)
         .setThumbnail(guild.iconURL())
         .addFields(
-            {name: "Nombre de personne :", value: guild.memberCount, inline: true},
-            {name: "Owner :", value: guild.owner, inline: true},
-            {name: "Crée le :", value: guild.createdAt, inline: true}
+            {name: "Nombre de personne :", value: `\`\`\`${guild.memberCount}\`\`\``, inline: true},
+            {name: "Owner :", value: `\`\`\` ${guild.owner.displayName} \`\`\``, inline: true},
+            {name: "Nombre de Salon :", value: `\`\`\` ${guild.channels.cache.size} \`\`\``, inline: true},
+            
+            {name: "Crée le :", value: `\`\`\` ${guild.createdAt} \`\`\``},
+
+            {name: "Description :", value:`\`\`\` ${guild.description} \`\`\``, inline: true},
+            {name: "Région :", value: `\`\`\` ${guild.region} \`\`\``, inline: true},
+            {name: "Nombre de Rôles :", value: `\`\`\` ${guild.roles.cache.size} \`\`\``, inline: true},
+
+            {name: "Rôles :", value: roles}
         )
         .setTimestamp()
 

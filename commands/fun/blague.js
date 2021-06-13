@@ -12,7 +12,6 @@ module.exports = {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             message.channel.send(`${data.joke} \n||${data.answer}||`)
         });
     }

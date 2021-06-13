@@ -4,4 +4,4 @@
 Faire `npm i`
 
 ## Contributor
-<a href="https://github.com/validatorjs/validator.js/graphs/contributors"><img src="https://opencollective.com/validatorjs/contributors.svg?width=890" /></a>
+<a href="https://github.com/Nirbose/CoalBot/graphs/contributors"><img src="https://opencollective.com/CoalBot/contributors.svg?width=890" /></a>

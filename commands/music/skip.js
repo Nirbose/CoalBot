@@ -10,7 +10,7 @@ module.exports = {
 
         if(!message.member.voice.channel) return message.channel.send('Vous devez être connectez dans un voval pout effectuer cette commande.');
 
-        serverQueue = message.client.music;
+        serverQueue = message.client.serverQueue;
 
         if(!serverQueue) {
             return message.channel.send('Aucune musique en cour.')

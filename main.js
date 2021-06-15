@@ -12,6 +12,7 @@ const {
 
 client.commands = new Discord.Collection()
 client.music = new Map();
+client.serverQueue;
 
 loadCommands(client);
 loadEvents(client);

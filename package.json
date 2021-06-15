@@ -30,8 +30,11 @@
     "quickchart-js": "^1.0.7",
     "sqlite3": "^5.0.2",
     "stack": "^0.1.0",
+    "time-value": "^1.1.1",
     "uuid": "^8.3.2",
+    "youtube-duration": "^1.0.0",
     "youtube-search": "^1.1.6",
-    "ytdl-core": "^4.8.2"
+    "ytdl-core": "^4.8.2",
+    "ytsr": "^3.5.0"
   }
 }

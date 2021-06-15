@@ -1,10 +1,8 @@
 const Discord = require('discord.js');
 let search = require('youtube-search');
 const ytdl = require('ytdl-core');
+const ytsr = require('ytsr');
 const {yt_key} = require('../../config.json');
-
-// Variable
-let serverQueue;
 
 module.exports = {
     name: "play",
@@ -12,31 +10,89 @@ module.exports = {
     aliases: ['p'],
     categorie: "Music",
 
-    execute(message, args) {
-        console.log(message.client.music);
+    async execute(message, args) {
         const queue = message.client.music;
+        let find = false;
 
         // Fonction play pour exuter la musique
-        function play(guild, song) {
-            // On lance la musique
-            serverQueue = queue.get(guild.id);
+        function play(song, connection, noNext = true) {
+            find = true;
+            message.client.serverQueue = queue.get(message.guild.id);
 
-            if (!song) { // Si la musique que l'utilisateur veux lancer n'existe pas on annule tout et on supprime la queue de lecture
-                serverQueue.voiceChannel.leave();
-                queue.delete(guild.id);
-                return;
-            
+            if(!message.client.serverQueue) {
+                message.client.serverQueue = {
+                    songs: [],
+                    playing: true,
+                    connection: null,
+                };
+    
+                queue.set(message.guild.id, message.client.serverQueue);
+                message.client.serverQueue.songs.push(song);
+    
+                message.client.serverQueue.connection = connection;
+    
+                const embed = new Discord.MessageEmbed()
+                    .setTitle(`${song.title}`)
+                    .setColor('#3C3C3A')
+                    .setDescription(`🎶 - Je lance **${song.title}** de la chaîne de __${song.author.name}__ !`)
+                    .addFields(
+                        {name: "Views :", value: song.views, inline: true},
+                        {name: "Durée :", value: song.duration, inline: true}
+                    )
+                    .setImage(song.thumbnails[0].url)
+                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setTimestamp()
+    
+                message.channel.send(embed)
             }
-
-            // On lance la musique
-            const dispatcher = serverQueue.connection
-            .play(ytdl(song.link, { filter: 'audioonly' }))
-            .on("finish", () => { // On écoute l'événement de fin de musique
-                    serverQueue.songs.shift(); // On passe à la musique suivante quand la courante se termine
-                    play(guild, serverQueue.songs[0]);
-            })
-            .on("error", error => console.error(error));
-            message.channel.send('je lance.');
+            else {
+                if(noNext) {
+                    const embed = new Discord.MessageEmbed()
+                    .setColor('#3C3C3A')
+                    .setTitle('🔊・Ajouter à la playliste')
+                    .setDescription(`**${song.title}** a été ajouté à la playliste actuellement construite. 🎵`)
+                    .addFields(
+                        {name: "Views :", value: song.views, inline: true},
+                        {name: "Durée :", value: song.duration, inline: true}
+                    )
+                    .setImage(song.thumbnails[0].url)
+                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setTimestamp()
+    
+                    return message.channel.send(embed);
+                }
+            }
+    
+            try {
+    
+                // message.channel.send("😅 Youtube en bazarre")
+                const song_exec = connection.play(ytdl(song.url, { filter: 'audioonly' } )).on('finish', () => {
+                    message.client.serverQueue.songs.shift();
+                    play(message.client.serverQueue.songs[0], connection, false);
+    
+                    try {
+                        const embed = new Discord.MessageEmbed()
+                        .setTitle(`${message.client.serverQueue.songs[0].title}`)
+                        .setColor('#3C3C3A')
+                        .setDescription(`🎶 - Je lance **${message.client.serverQueue.songs[0].title}** de la chaîne de __${message.client.serverQueue.songs[0].author.name}__ !`)
+                        .addFields(
+                            {name: "Views :", value: song.views, inline: true},
+                            {name: "Durée :", value: song.duration, inline: true}
+                        )
+                        .setImage(message.client.serverQueue.songs[0].thumbnails[0].url)
+                        .setFooter(message.author.username, message.author.avatarURL())
+                        .setTimestamp()
+                    } catch(err) {
+                        return;
+                    }
+    
+                    message.channel.send(embed)
+                });
+    
+                song_exec.setVolume(0.5);
+            } catch(err) {
+                return;
+            }
         }
 
 
@@ -45,44 +101,28 @@ module.exports = {
         if(!args[0]) return message.channel.send("Vous devez me donner la musique a lancer.")
 
         const arg = args.slice(0).join(" ");
+        message.channel.send('🔍 - Je cherche votre musique sur le net et je la charge.')
 
         // Connexion au salon vocal
-        message.member.voice.channel.join()
-        .then(connection => {
+        let c = message.member.voice.channel.join()
+        .then(async connection => {
 
             // Cherche sur youtube
-            search(arg, {maxResults: 10, key: yt_key}, function(err, results) {
-                console.log(results[0])
+            const results = await ytsr(arg);
 
-                if(!serverQueue) {
-                    const queueConstruct = {
-                        textChannel : message.channel,
-                        voiceChannel: connection,
-                        connection  : null,
-                        songs       : [],
-                        volume      : 1,
-                        playing     : true,
-                    };
+            for (let i = 0; i < results.items.length; i++) {
+                const element = results.items[i];
 
-                    // On ajoute la queue du serveur dans la queue globale:
-			        queue.set(message.guild.id, queueConstruct);
-                    // On y ajoute la musique
-                    queueConstruct.songs.push(results[0]);
-
-                    try {
-                        queueConstruct.connection = connection;
-                        play(message.guild, queueConstruct.songs[0]);
-
-                    } catch(err) {
-                        console.log(err)
-                    }
-
-                } else {
-                    serverQueue.songs.push(song);
-                    return message.channel.send(`${song.title} est ajouter a la "play-list" .`);
+                if(find) {
+                    return;
                 }
-    
-            });
+
+                if(element.type == 'video') {
+                    play(element, connection);
+                }
+                
+            }
+
         })
           
     }

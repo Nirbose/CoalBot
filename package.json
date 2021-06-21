@@ -22,6 +22,7 @@
     "chart.js": "^3.3.0",
     "dialogflow": "^1.2.0",
     "discord-reply": "^0.1.2",
+    "discord-together": "^1.1.14",
     "discord.js": "^12.5.3",
     "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.3.0",

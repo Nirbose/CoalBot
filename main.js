@@ -17,5 +17,4 @@ client.serverQueue;
 loadCommands(client);
 loadEvents(client);
 
-
 client.login(config.token)

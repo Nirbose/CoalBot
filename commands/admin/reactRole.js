@@ -84,7 +84,7 @@ module.exports = {
                             .then(collected => {
                                 let reaction = collected.first();
                                 reac = reaction.emoji.name;
-                                
+
                                 db.all(`SELECT * FROM role`, (err, rows) => {
                                     rows.forEach(element => {
                                         if(element.messageId == messageId && chan_id == element.channelId && reac == element.emoji) return message.channel.send(`L'emoji ${reac} a déja été associer a ce message`)
@@ -105,10 +105,11 @@ module.exports = {
                                             {name: "Emoji", value: `${reac}`, inline:true}]
                                         )
                                         .setTimestamp()
-                                            msg.then(function (message) {
-                                                message.react(reac) 
-                                                message.channel.send(embed)
-                                            })
+                                
+                                        message.channel.send(embed)
+        
+                                        msg.then(function (message) { message.react(reac) })
+    
                                     }).run();
                                 })
                             })

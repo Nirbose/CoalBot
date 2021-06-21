@@ -24,4 +24,21 @@ module.exports = async (client, member) => {
     })
 
     /**   End Stats partie   **/
+
+    db.all(`SELECT * FROM channels`, (err, rows) => {
+        find = false
+
+        rows.forEach(channel => {
+            if(channel.name == "log") {
+                const embed = new Discord.MessageEmbed()
+                .setColor('3C3C3A')
+                .setTitle('Member Remove :')
+                .setDescription(`${member} vient de partir du serveur.`)
+                .setThumbnail(member.user.avatarURL())
+                .setTimestamp()
+
+                if(find == false) client.channels.cache.get(channel.channelId).send(embed);
+            }
+        })
+    })
 }

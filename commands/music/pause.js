@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const {pause} = require('../../assets/function/music');
+// const {pause} = require('../../assets/function/music');
 
 module.exports = {
     name: "pause",
@@ -9,6 +9,16 @@ module.exports = {
 
         if(!message.member.voice.channel) return message.channel.send('Vous devez être connectez dans un vocal pout effectuer cette commande.');
 
-        pause(message);
+        let serverQueue = message.client.serverQueue;
+
+        if(!serverQueue) {
+            return message.channel.send('Aucune musique en cour.')
+        }
+
+        if (serverQueue.playing) {
+			message.client.serverQueue.playing = false;
+			serverQueue.connection.dispatcher.pause(true);
+			return message.channel.send('⏸ - Le musique est en pause.');
+		}
     }
 }

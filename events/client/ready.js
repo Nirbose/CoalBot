@@ -17,4 +17,22 @@ module.exports = client => {
     console.log(
         `Le bot est ON !`
     );
+
+    db.all(`SELECT * FROM channels`, (err, rows) => {
+        find = false
+        rows.forEach(channel => {
+            if(find) {
+                return;
+            }
+            if(channel.name == "log") {
+                find = true;
+                client.channels.cache.get(channel.channelId).send('Loading :gear:').then((msg) => {
+                    setTimeout(function () {
+                        msg.edit('Bot chargé !');
+                    }, 2500)
+                })
+            }
+        })
+    })
 }
+

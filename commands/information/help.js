@@ -8,7 +8,7 @@ module.exports = {
     description:"Affiche la liste de toute les commandes",
     categorie: "Information",
     execute(message, arg) {
-
+        console.log('t')
         let noFind = 1;
 
         if(!arg[0]) {

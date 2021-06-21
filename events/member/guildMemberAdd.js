@@ -68,4 +68,21 @@ module.exports = async (client, member) => {
         if(find == false) db.run(`INSERT INTO stats (year, month, joine, leave) VALUES (${d_year}, ${d_mouth}, '1', '0')`);
         
     })
+
+    db.all(`SELECT * FROM channels`, (err, rows) => {
+        find = false
+
+        rows.forEach(channel => {
+            if(channel.name == "log") {
+                const embed = new Discord.MessageEmbed()
+                .setColor('3C3C3A')
+                .setTitle('Member Add :')
+                .setDescription(`${member} vient de rejoindre le serveur.`)
+                .setThumbnail(member.user.avatarURL())
+                .setTimestamp()
+
+                if(find == false) client.channels.cache.get(channel.channelId).send(embed);
+            }
+        })
+    })
 }

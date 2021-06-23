@@ -14,7 +14,7 @@ module.exports = {
 
         if(listing.includes(msg)) {
 
-            message.client.discordTogether.createTogetherCode(message.member.voice.channelID, "774665586001051648").then(async invite => {
+            message.client.discordTogether.createTogetherCode(message.member.voice.channelID, msg).then(async invite => {
                 return message.channel.send(`${invite.code}`);
             });
 

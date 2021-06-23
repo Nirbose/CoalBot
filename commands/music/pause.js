@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-// const {pause} = require('../../assets/function/music');
 
 module.exports = {
     name: "pause",

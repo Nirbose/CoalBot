@@ -3,7 +3,7 @@ const fs = require('fs');
 module.exports = {
     name: "setbanwords",
     description: "Permet d'ajouter un mot a ban.",
-    categorie: "Admin",
+    categorie: "👑 - Admin",
     execute(message, arg) {
 
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.")

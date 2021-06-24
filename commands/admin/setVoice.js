@@ -5,7 +5,7 @@ let db = new sqlite3.Database("./db/database.db");
 module.exports = {
     name: "setvoice",
     description: "Permet d'ajout un générateur de vocaux.",
-    categorie: "Admin",
+    categorie: "👑 - Admin",
     execute(message, arg) {
 
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.")

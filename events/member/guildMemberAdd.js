@@ -69,8 +69,9 @@ module.exports = async (client, member) => {
         
     })
 
+    find = false
+
     db.all(`SELECT * FROM channels`, (err, rows) => {
-        find = false
 
         rows.forEach(channel => {
             if(channel.name == "log") {

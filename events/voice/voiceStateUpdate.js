@@ -1,23 +1,20 @@
-const id_voc = [];
-const fs = require('fs')
+const fs = require('fs');
+const sqlite3 = require('sqlite3');
+let db = new sqlite3.Database("./db/database.db");
 
 module.exports = async (client, oldMember, newMember) => {
     let newUserChannel = newMember.channelID;
     let oldUserChannel = oldMember.channelID;
-        
-    let rawdata = fs.readFileSync('./json/channel.json');
-    let json_channel = JSON.parse(rawdata);
 
-    var i;
     if(newMember.channel) {
         
         // supprime de force l'ancien voc de l'user.
         if(oldMember.channel) {
 
-            for (var i = 0; i < id_voc.length; i++) {
+            for (let i = 0; i < client.voiceCreate.length; i++) {
     
                 if(oldMember.channel.members.size === 0){
-                    if(oldUserChannel === id_voc[i]) {
+                    if(oldUserChannel === client.voiceCreate[i]) {
                         oldMember.channel.delete()
                     }
                 };
@@ -25,39 +22,49 @@ module.exports = async (client, oldMember, newMember) => {
             }
         }
 
-        for (i = 0; i < json_channel['voc_channel'].length; i++) {
-            if(newUserChannel === json_channel['voc_channel'][i]) {
+        db.all(`SELECT * FROM channels`, (err, rows) => {
 
-                newMember.channel.guild.channels.create(`salon de ${newMember.member.user.username}`,{
-                    type: 'voice',
-                    permissionOverwrites: [
-                        {
-                            id: newMember.member.user.id,
-                            allow: ['VIEW_CHANNEL'],
-                        },
-                        {
-                            id: newMember.guild.id,
-                            deny: ['VIEW_CHANNEL'],
-                        },
-                    ],
-                }).then(c=>{
-                    c.setParent(client.channels.cache.get(newUserChannel).parent);
-                    newMember.setChannel(c);
-                    id_voc.push(`${c.id}`);
-                });
+            rows.forEach(channel => {
 
-                return;
-            }
-        }
+                if(channel.name == "voice") {
+
+                    if(newUserChannel === channel.channelId) {
+
+                        newMember.channel.guild.channels.create(`Chez ${newMember.member.user.username}`,{
+                            type: 'voice',
+                            permissionOverwrites: [
+                                {
+                                    id: newMember.member.user.id,
+                                    allow: ['VIEW_CHANNEL'],
+                                },
+                                {
+                                    id: newMember.guild.id,
+                                    deny: ['VIEW_CHANNEL'],
+                                },
+                            ],
+                        }).then(c=>{
+                            c.setParent(client.channels.cache.get(newUserChannel).parent);
+                            newMember.setChannel(c);
+                            client.voiceCreate.push(`${c.id}`);
+                        });
+    
+                        return;
+                    }
+
+                }
+
+            });
+
+        });
     }
 
 
     if(oldMember.channel) {
 
-        for (var i = 0; i < id_voc.length; i++) {
+        for (let i = 0; i < client.voiceCreate.length; i++) {
 
             if(oldMember.channel.members.size === 0){
-                if(oldUserChannel === id_voc[i]) {
+                if(oldUserChannel === client.voiceCreate[i]) {
                     oldMember.channel.delete()
                 }
             };

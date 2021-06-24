@@ -13,6 +13,7 @@ const {
 client.commands = new Discord.Collection()
 client.music = new Map();
 client.serverQueue;
+client.voiceCreate = [];
 
 loadCommands(client);
 loadEvents(client);

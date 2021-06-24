@@ -4,11 +4,17 @@ let db = new sqlite3.Database("./db/database.db");
 
 module.exports = async (client, oldMember, newMember) => {
 
-    let role = "";
+    let afterRole = "";
+    let beforeRole = "";
 
     for(let i = 0; i < newMember._roles.length; i++) {
-        role += `<@&${newMember._roles[i]}>`;
+        afterRole += `<@&${newMember._roles[i]}>`;
     }
+
+    for(let i = 0; i < oldMember._roles.length; i++) {
+        beforeRole += `<@&${oldMember._roles[i]}>`;
+    }
+
     db.all(`SELECT * FROM channels`, (err, rows) => {
         find = false
 
@@ -23,8 +29,13 @@ module.exports = async (client, oldMember, newMember) => {
                 .setTitle('Member Update :')
                 .setDescription(`${newMember.user} vient d'update son profil`)
                 .addFields(
+                    {name: '\u200B', value: "``` Avant : ```"},
+                    {name: "Nickname :", value: oldMember.nickname, inline: true},
+                    {name: "Roles :", value: beforeRole, inline: true},
+
+                    {name: '\u200B', value: "``` Après : ```"},
                     {name: "Nickname :", value: newMember.nickname, inline: true},
-                    {name: "Roles :", value: role}
+                    {name: "Roles :", value: afterRole, inline: true},
                 )
                 .setThumbnail(newMember.user.avatarURL())
                 .setTimestamp()

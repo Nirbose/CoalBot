@@ -1,4 +1,6 @@
-const fs = require("fs")
+const fs = require("fs");
+const sqlite3 = require('sqlite3');
+let db = new sqlite3.Database("./db/database.db");
 
 module.exports = {
     name: "setvoice",
@@ -8,26 +10,27 @@ module.exports = {
 
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.")
 
-        if(!arg[0]) return message.channel.send("Il me faut l'id d'un vocal.");
-        if(isNaN(arg[0])) return message.channel.send("L'id doit être composer de chiffres.")
+        let id = arg[0];
 
-        if(!message.client.channels.cache.get(arg[0])) return message.channel.send("Ce channel n'existe point.")
+        if(!id) return message.channel.send("Il me faut l'id d'un vocal.");
+        if(isNaN(id)) return message.channel.send("L'id doit être composer de chiffres.")
 
-        let rawdata = fs.readFileSync("./json/channel.json");
-        let data = JSON.parse(rawdata);
+        if(!message.client.channels.cache.get(id)) return message.channel.send("Ce channel n'existe point.")
 
-        for(let i = 0; i < data["voc_channel"].length; i++) {
-            if(arg[0] == data["voc_channel"][i]) {
-                return message.channel.send("Le channel est déjà enregistrer.")
-            }
+        let find = false;
+
+        db.all(`SELECT * FROM channels`, (err, rows) => {
+            rows.forEach(channel => {
+                if(channel.channelId == id) {
+                    find = true;
+                    return
+                }
+            })
+        })
+
+        if(find == false) {
+            db.prepare(`INSERT INTO channels(name, channelId) VALUES(?, ?)`, ['voice', id]).run();
         }
-
-        data.voc_channel.push(arg[0])
-
-        let push = JSON.stringify(data, null, 2);
-        fs.writeFile('./json/channel.json', push, (err) => {
-            if (err) throw err;
-        });
 
         message.channel.send("Channel bien sauvegarder.")
 

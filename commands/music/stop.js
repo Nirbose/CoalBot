@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-// const {stop} = require('../../assets/function/music');
 
 module.exports = {
     name: "stop",

@@ -9,11 +9,51 @@ const Mee6LevelsApi = require("mee6-levels-api");
 const dialogflow = require('dialogflow');
 const uuid = require('uuid');
 const dialogConfig = require('../../dialogConfig.json')
+const sqlite3 = require('sqlite3');
+let db = new sqlite3.Database("./db/database.db")
 
 let talking = []
 let waiting;
 
 module.exports = async (client, message) => {
+	
+	/////////////// Sauvegarde msg ////////
+
+	let timestamp = message.createdTimestamp;;
+	let author = message.author.id;
+	let chan = message.channel.id;
+	let mesId = message.id;
+	let mes;
+	let dataEmbed = []
+	let dataIMG = [];
+	for (let embed of message.embeds) {
+		dataEmbed.push([`Title: ${embed.title} Author: ${embed.author} Description: ${embed.description} `])
+		for (let field of embed.fields) {
+		dataEmbed.push([`Field title: ${field.name} Field value: ${field.value}`])
+		}
+	}
+
+	message.attachments.forEach(attachment => {
+		let url = attachment.attachment;
+		dataIMG.push([url])
+	});
+
+	if(dataEmbed.length != 0) {
+		mes = dataEmbed
+	} else if(dataIMG != 0){
+		mes = dataIMG
+	} else {
+		mes = message.content
+	}
+	
+	db.prepare(`INSERT INTO messages (message, messageID, channel, author, timestamp) VALUES(?, ?, ?, ?, ?)`, [mes, mesId, chan, author, timestamp], err => {
+		if(err) {
+			console.log(err);
+		}
+	}).run();
+
+	////////////// End save msg ///////////
+
 
 	/////////////// ChatBot ///////////////
 	let input;

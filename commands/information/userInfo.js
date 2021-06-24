@@ -30,7 +30,9 @@ module.exports = {
                 userFlags.push(`${emojiID}`)
             }
 
-            let date = new Date(info.user.createdTimestamp * 1000);
+            let time = parseInt(info.user.createdTimestamp)
+            let d = new Date(time);
+            let date = d.getHours() + ":" + d.getMinutes() + ", " + d.toDateString();
 
             // Création de l'embed.
             embed.setTitle("Information sur " + info.user.username)

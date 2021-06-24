@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
     name: "repeat",
     description: "Commande pour jouer a repeat avec le bot.",
-    categorie: "Games",
+    categorie: "🕹 - Games",
     execute(message) {
 
         let block = "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜\n";

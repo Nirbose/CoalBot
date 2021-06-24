@@ -15,14 +15,23 @@ module.exports = {
             let categorie = "";
             let names = [];
 
+            let commandsCount = 0;
+            let categorieCount = 0;
+
             const embed = new Discord.MessageEmbed()
+            .setColor('3C3C3A')
             .setTitle("Help")
             .setDescription(`Voici toute les commandes que possède ${message.client.user.username}`)
+            .setAuthor(message.guild.name, message.guild.iconURL())
+            .addField('\u200B', '\u200B');
 
             message.client.commands.forEach(elements => {
                 if(categorie != elements.categorie) {
+
                     if(names.length != 0) {
-                        embed.addField(categorie, names.toString().replace(/,/g, '\n'), true)
+                        embed.addField(categorie, `**- **${names.toString().replace(/,/g, ', ')}`)
+                        categorieCount++;
+                        commandsCount += names.length;
                         names = [];
                     }
                     
@@ -30,6 +39,7 @@ module.exports = {
                 names.push(elements.name);
                 categorie = elements.categorie
             })
+            embed.setFooter(`${commandsCount} commandes et ${categorieCount} catégories`)
             message.channel.send(embed);
         }
 

@@ -32,6 +32,7 @@ module.exports = async (client, member) => {
             if(channel.name == "log") {
                 const embed = new Discord.MessageEmbed()
                 .setColor('3C3C3A')
+                .setAuthor(member.guild.name, member.guild.iconURL())
                 .setTitle('Member Remove :')
                 .setDescription(`${member} vient de partir du serveur.`)
                 .setThumbnail(member.user.avatarURL())

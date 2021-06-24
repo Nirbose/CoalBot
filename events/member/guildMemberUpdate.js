@@ -26,6 +26,7 @@ module.exports = async (client, oldMember, newMember) => {
             if(channel.name == "log") {
                 const embed = new Discord.MessageEmbed()
                 .setColor('3C3C3A')
+                .setAuthor(newMember.guild.name, newMember.guild.iconURL())
                 .setTitle('Member Update :')
                 .setDescription(`${newMember.user} vient d'update son profil`)
                 .addFields(

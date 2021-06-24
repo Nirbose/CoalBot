@@ -5,7 +5,7 @@ const db = new sqlite3.Database("./db/database.db");
 module.exports = {
     name: "setlogs",
     description: "Permet de définir un channel ou les logs seront afficher.",
-    categorie: "Admin",
+    categorie: "👑 - Admin",
     execute(message, arg) {
 
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.")

@@ -7,7 +7,7 @@ let db = new sqlite3.Database("./db/database.db")
 module.exports = {
     name: "reac",
     description: "Permet d'ajouter ou de supprimer un role avec des réactions'",
-    categorie: "Admin",
+    categorie: "👑 - Admin",
     execute(message, arg) {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.");
         

@@ -11,7 +11,7 @@ module.exports = client => {
     db.prepare(`CREATE TABLE IF NOT EXISTS channels (id INTEGER, name VACHAR(255), channelId VACHAR(255), PRIMARY KEY (id))`).run().finalize()
     db.prepare(`CREATE TABLE IF NOT EXISTS stats (id INTEGER, year VACHAR(255), month VACHAR(255), joine INT, leave INT, PRIMARY KEY (id))`).run().finalize()
     db.prepare(`CREATE TABLE IF NOT EXISTS messages (id INTEGER, message VACHAR(255), messageID  VACHAR(255), channel VACHAR(255), author VACHAR(255), timestamp VACHAR(255), PRIMARY KEY (id))`).run().finalize()
-
+    db.prepare(`CREATE TABLE IF NOT EXISTS invalidName (id INTEGER, userName VACHAR(255), userID VACHAR(255), PRIMARY KEY (id))`).run().finalize()
     db.close();
 
     client.user.setPresence({activity: {name: "CoalStudio.fr"}});

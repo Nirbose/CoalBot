@@ -1,3 +1,4 @@
+
 const fs = require('fs');
 const Discord = require('discord.js');
 const sqlite3 = require('sqlite3');

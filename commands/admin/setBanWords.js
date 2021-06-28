@@ -1,4 +1,6 @@
 const fs = require('fs');
+const sqlite3 = require('sqlite3');
+const db = new sqlite3.Database('./db/database.db')
 
 module.exports = {
     name: "setbanwords",
@@ -12,21 +14,7 @@ module.exports = {
 
         let word = arg[0].toLowerCase()
 
-        let rawdata = fs.readFileSync("./json/moderation.json");
-        let data = JSON.parse(rawdata);
-
-        for(let i = 0; i < data.bans_words.length; i++) {
-            if(word == data.bans_words[i]) {
-                return message.channel.send("Se mot est déjà enregistrer.")
-            }
-        }
-
-        data.bans_words.push(arg[0]);
-
-        let push = JSON.stringify(data, null, 2);
-        fs.writeFile('./json/moderation.json', push, (err) => {
-            if (err) throw err;
-        });
+        db.prepare(`INSERT INTO wordBanned(word, userId) VALUES(?, ?)`, [word, message.author.id]).run()
 
         message.channel.send("Mot enregistrer.");
 

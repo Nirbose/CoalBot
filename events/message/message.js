@@ -1,11 +1,10 @@
 "use strict";
 
-const fs = require('fs');
 const Discord = require('discord.js');
 require('discord-reply');
 const config = require('../../config.json')
 const prefix = config.prefix;
-const Mee6LevelsApi = require("mee6-levels-api");
+const axios = require('axios')
 const dialogflow = require('dialogflow');
 const uuid = require('uuid');
 const dialogConfig = require('../../dialogConfig.json')
@@ -54,51 +53,69 @@ module.exports = async (client, message) => {
 
 	////////////// End save msg ///////////
 
+	/////////////// Auto moderation //////////////
+
+	// axios.post('http://enzia.toile-libre.org/wordban/', {
+	// 	word: 'Fred',
+	// 	message: 'Flintstone'
+	// })
+	// .then(function (response) {
+	// 	console.log(response);
+	// })
+	// .catch(function (error) {
+	// 	console.log(error);
+	// });
+
+	/////////////// End Auto moderation //////////////
 
 	/////////////// ChatBot ///////////////
 	let input;
-	let rawdata = fs.readFileSync('./json/channel.json');
-    let json_channel = JSON.parse(rawdata);
-	if (message.channel.id === json_channel.chatbot.channel_id && !message.author.bot) {
-		clearTimeout(waiting);
-		if(message.mentions.has(client.user.id) && !talking.includes(message.author.username)) {
-			talking.push(message.author.username)
-		}
-		
-		waiting = setTimeout(() => {
-			talking = talking.filter(function(f) { return f !== message.author.username })
-		}, 10000);
-
-		input = message.content
-		
-		async function runSample(projectId = dialogConfig.project_id) {
-			const sessionId = uuid.v4();
-		   
-			const sessionClient = new dialogflow.SessionsClient({
-				keyFilename: './dialogConfig.json'
-			});
-			const sessionPath = sessionClient.sessionPath(projectId, sessionId);
-
-			const request = {
-			  session: sessionPath,
-			  queryInput: {
-				text: {
-				  text: input,
-				  languageCode: 'fr-FR',
-				},
-			  },
-			};
-
-			const responses = await sessionClient.detectIntent(request);
-			const result = responses[0].queryResult;
-			message.channel.startTyping()
-			setTimeout(function(){
-				message.channel.stopTyping();
-				message.lineReply(`${result.fulfillmentText}`);
-			}, 800);
-		}
-		if(talking.includes(message.author.username)) runSample();
-	}
+	db.all(`SELECT * FROM channels`, (err, rows) => {
+		rows.forEach(channel => {
+			if(channel.name == 'chatbot') {
+				if (message.channel.id === channel.channelId && !message.author.bot) {
+					clearTimeout(waiting);
+					if(message.mentions.has(client.user.id) && !talking.includes(message.author.username)) {
+						talking.push(message.author.username)
+					}
+					
+					waiting = setTimeout(() => {
+						talking = talking.filter(function(f) { return f !== message.author.username })
+					}, 10000);
+			
+					input = message.content
+					
+					async function runSample(projectId = dialogConfig.project_id) {
+						const sessionId = uuid.v4();
+					   
+						const sessionClient = new dialogflow.SessionsClient({
+							keyFilename: './dialogConfig.json'
+						});
+						const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+			
+						const request = {
+						  session: sessionPath,
+						  queryInput: {
+							text: {
+							  text: input,
+							  languageCode: 'fr-FR',
+							},
+						  },
+						};
+			
+						const responses = await sessionClient.detectIntent(request);
+						const result = responses[0].queryResult;
+						message.channel.startTyping()
+						setTimeout(function(){
+							message.channel.stopTyping();
+							message.lineReply(`${result.fulfillmentText}`);
+						}, 800);
+					}
+					if(talking.includes(message.author.username)) runSample();
+				}
+			}
+		})
+	})
 
 
 	/////////////// Reaction Message ///////////////
@@ -115,21 +132,6 @@ module.exports = async (client, message) => {
 	}
 
 	/////////////// End Reaction Message ///////////////
-
-	// Auto moderation //
-	let rawdataModo = fs.readFileSync("./json/moderation.json");
-	let data = JSON.parse(rawdataModo);
-
-	let contentMsg = message.content.trim();
-	if(data.bans_words.length != 0) {
-		for(let index = 0; index < data.bans_words.length; index++) {
-			if(contentMsg.includes(data.bans_words[index])) {
-				message.channel.send("Vous avez dis un mot intredie...");
-			}
-			
-		}
-	} 
-	// End Auto moderation //
 
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 

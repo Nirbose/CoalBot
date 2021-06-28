@@ -1,11 +1,10 @@
 const fs = require('fs');
 // const Canvas = require('canvas');
 const Discord = require('discord.js')
+const sqlite3 = require('sqlite3');
+let db = new sqlite3.Database("./db/database.db")
 
 module.exports = async (client, member) => {
-    
-    // let rawdata = fs.readFileSync('./json/channel.json');
-    // let json_channel = JSON.parse(rawdata);
 
     // // Canvas génération.
     // const canvas = Canvas.createCanvas(700, 350);
@@ -44,7 +43,11 @@ module.exports = async (client, member) => {
     // .attachFiles(attachment)
     // .setImage('attachment://welcome-img.png')
     // .setTimestamp()
-    // client.channels.cache.get(json_channel.welcome.channel_id).send(embed);
+    // db.all(`SELECT * FROM channels`, (err, rows) => {
+    //     rows.forEach(channel => {
+    //         if(channel.name == "welcome") client.channels.cache.get(channel.channelId).send(embed);
+    //     });
+    // })
 
 
     /**   Stats partie   **/
@@ -53,8 +56,6 @@ module.exports = async (client, member) => {
     let d_year = d.getFullYear();
     let d_mouth = d.getMonth() + 1;
 
-    const sqlite3 = require('sqlite3');
-    let db = new sqlite3.Database("./db/database.db")
     let find;
 
     db.all(`SELECT * FROM stats`, (err, rows) => {

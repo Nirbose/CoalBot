@@ -53,3 +53,9 @@ Nom : **database.db**
 | channel   | Vachar (255) |
 | author    | Vachar (255) |
 | timestamp | Vachar (255) |
+
+| invalidName | Type         |
+|:-----------:|:------------:|
+| id          | Int Primary  |
+| userName    | Vachar (255) |
+| userID      | Vachar (255) |

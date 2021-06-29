@@ -15,7 +15,9 @@ let talking = []
 let waiting;
 
 module.exports = async (client, message) => {
-	
+
+
+
 	/////////////// Sauvegarde msg ////////
 
 	let timestamp = message.createdTimestamp;;

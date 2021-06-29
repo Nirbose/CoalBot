@@ -6,6 +6,21 @@ let db = new sqlite3.Database("./db/database.db")
 
 module.exports = async (client, member) => {
 
+    let count = 0
+    // Check pseudo //
+    if(/[^\u0000-\u007f]/.test(member.user.username)) {
+        db.run(`INSERT INTO invalidName (userName, userID) VALUES (?,?)`, [member.user.username, member.user.id])
+		db.all(`SELECT * FROM invalidName`, (err, rows) => {
+            find = false;
+            rows.forEach(element => {
+                count += 1
+            });
+            member.setNickname(`PSEUDO INCORECT ${count}`)
+        });
+	}
+
+    // end check pseudo //
+
     // // Canvas génération.
     // const canvas = Canvas.createCanvas(700, 350);
     // const ctx = canvas.getContext('2d');
@@ -80,7 +95,7 @@ module.exports = async (client, member) => {
                 .setColor('3C3C3A')
                 .setAuthor(member.guild.name, member.guild.iconURL())
                 .setTitle('Member Add :')
-                .setDescription(`${member} vient de rejoindre le serveur.`)
+                .addFields({name:'Info', value:`${member} vient de rejoindre le serveur.`})
                 .setThumbnail(member.user.avatarURL())
                 .setTimestamp()
 

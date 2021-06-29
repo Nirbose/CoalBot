@@ -55,16 +55,21 @@ module.exports = async (client, message) => {
 
 	/////////////// Auto moderation //////////////
 
-	// axios.post('http://enzia.toile-libre.org/wordban/', {
-	// 	word: 'Fred',
-	// 	message: 'Flintstone'
-	// })
-	// .then(function (response) {
-	// 	console.log(response);
-	// })
-	// .catch(function (error) {
-	// 	console.log(error);
-	// });
+	db.all(`SELECT * FROM wordBanned`, (err, rows) => {
+		rows.forEach(word => {
+
+			let regex = new RegExp("("+ word.word +")([a-z]+)");
+			let verifR = new RegExp("("+ word.word +")");
+			let msgParse = message.content.replace(/(\*)/g, '').replace(/(\?)/g, '').replace(/(\.)/g, '').replace(/(\,)/g, '').replace(/(\/)/g, '').replace(/(\|)/g, '').toLowerCase();
+			let msgContent = regex.exec(msgParse);
+		
+			if(verifR.exec(msgParse)) {
+				if(!msgContent) {
+					message.channel.send("No !")
+				}
+			}
+		})
+	})
 
 	/////////////// End Auto moderation //////////////
 

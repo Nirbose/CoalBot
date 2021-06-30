@@ -8,14 +8,14 @@ const Discord = require('discord.js'),
 const {
     loadEvents,
     loadCommands
-} = require("./util/loader");
+} = require("./app/util/loader");
 
 client.commands = new Discord.Collection()
 client.music = new Map();
 client.serverQueue;
 client.voiceCreate = [];
 
-loadCommands(client);
-loadEvents(client);
+loadCommands(client, __dirname + "/commands/");
+loadEvents(client, __dirname + "/events/");
 
 client.login(config.token)

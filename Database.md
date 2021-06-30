@@ -3,12 +3,16 @@
 Nom : **database.db**
 ## Table
 
+Warn table
+
 | warn    | Type         |
 |:-------:|:------------:|
 | id      | Int Primary  |
 | userId  | Vachar (255) |
 | nb_warn | Int          |
 | reason  | Text         |
+
+Roles table pour l'auto role
 
 | role      | Type         |
 |:---------:|:------------:|
@@ -19,11 +23,15 @@ Nom : **database.db**
 | role      | Vachar (255) |
 | mode      | Text         |
 
+Words Banned table pour l'auto modération 
+
 | wordBanned | Type         |
 |:----------:|:------------:|
 | id         | Int Primary  |
 | word       | Vachar (255) |
 | userId     | Int          |
+
+Bump table pour le compteur de bump
 
 | bump      | Type         |
 |:---------:|:------------:|
@@ -31,11 +39,15 @@ Nom : **database.db**
 | userId    | Vachar (255) |
 | date      | Text         |
 
+Channels table pour les setChannels
+
 | channels  | Type         |
 |:---------:|:------------:|
 | id        | Int Primary  |
 | name      | Vachar (255) |
 | channelId | Vachar (255) |
+
+Stats table pour le commande Stats
 
 | stats     | Type         |
 |:---------:|:------------:|
@@ -44,6 +56,8 @@ Nom : **database.db**
 | month     | Vachar (255) |
 | joine     | Int          |
 | leave     | Int          |
+
+
 
 | messages  | Type         |
 |:---------:|:------------:|

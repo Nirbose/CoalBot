@@ -1,20 +1,24 @@
 const fs = require('fs');
 const Discord = require('discord.js');
+const sqlite3 = require('sqlite3');
+const db = new sqlite3.Database("./db/database.db");
 
 module.exports = async (client, message, channel) => {
 
-    let rawdata = fs.readFileSync("./json/channel.json");
-    let data = JSON.parse(rawdata);
-    const embed = new Discord.MessageEmbed()
-    .setColor("3C3C3A")
-    .setAuthor(message.guild.name, message.guild.iconURL())
-    .setDescription(`**Message de ${message.author} supprimé :** \n\n${message.content}`)
-    .setThumbnail(message.author.avatarURL())
-    .setTimestamp()
+    db.all(`SELECT * FROM channels`, (err, rows) => {
 
-    for(let i = 0; i < data.log_channel.length; i++) {
-        if(message.client.channels.cache.get(data.log_channel[i])) {
-            message.client.channels.cache.get(data.log_channel[i]).send(embed)
-        }
-    }
+        rows.forEach(channel => {
+            if(channel.name == 'logs') {
+                const embed = new Discord.MessageEmbed()
+                .setColor("3C3C3A")
+                .setAuthor(message.guild.name, message.guild.iconURL())
+                .setDescription(`**Message de ${message.author} supprimé :** \n\n${message.content}`)
+                .setThumbnail(message.author.avatarURL())
+                .setTimestamp()
+
+                message.channel.send(embed);
+            }
+        })
+    })
+
 }

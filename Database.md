@@ -57,7 +57,7 @@ Stats table pour le commande Stats
 | joine     | Int          |
 | leave     | Int          |
 
-
+Messages table
 
 | messages  | Type         |
 |:---------:|:------------:|

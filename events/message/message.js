@@ -14,8 +14,64 @@ let db = new sqlite3.Database("./db/database.db")
 let talking = []
 let waiting;
 
+const usersMap = new Map();
+const LIMIT = 7;
+const DIFF = 5000;
+const TIME = 3000;
+
 module.exports = async (client, message) => {
 
+
+	/////////////// Anti Spam ///////////////
+	if(usersMap.has(message.author.id)) {
+        const userData = usersMap.get(message.author.id);
+        const { lastMessage, timer } = userData;
+        const difference = message.createdTimestamp - lastMessage.createdTimestamp;
+        let msgCount = userData.msgCount;
+
+        if(difference > DIFF) {
+            clearTimeout(timer);
+            userData.msgCount = 1;
+            userData.lastMessage = message;
+            userData.timer = setTimeout(() => {
+                usersMap.delete(message.author.id);
+            }, TIME);
+            usersMap.set(message.author.id, userData)
+        }
+        else {
+            ++msgCount;
+            if(parseInt(msgCount) === LIMIT) {
+
+               	message.reply("Stop Spam !");
+
+				let fn = setTimeout(() => {
+					usersMap.delete(message.author.id);
+				}, TIME);
+				usersMap.set(message.author.id, {
+					msgCount: 1,
+					lastMessage : message,
+					timer : fn
+				});
+
+              	message.channel.bulkDelete(LIMIT);
+               
+            } else {
+                userData.msgCount = msgCount;
+                usersMap.set(message.author.id, userData);
+            }
+        }
+    }
+    else {
+        let fn = setTimeout(() => {
+            usersMap.delete(message.author.id);
+        }, TIME);
+        usersMap.set(message.author.id, {
+            msgCount: 1,
+            lastMessage : message,
+            timer : fn
+        });
+    }
+	/////////////// End Anti Spam ///////////////
 
 
 	/////////////// Sauvegarde msg ////////

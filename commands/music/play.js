@@ -1,8 +1,6 @@
 const Discord = require('discord.js');
-let search = require('youtube-search');
 const ytdl = require('ytdl-core');
 const ytsr = require('ytsr');
-const {yt_key} = require('../../config.json');
 
 module.exports = {
     name: "play",
@@ -15,11 +13,12 @@ module.exports = {
         let find = false;
 
         // Fonction play pour exuter la musique
-        function play(song, connection, noNext = true) {
+        let self = function play(song, connection, noNext = true) {
             find = true;
             message.client.serverQueue = queue.get(message.guild.id);
 
             if(!message.client.serverQueue) {
+                message.channel.send('😅 - Youtube en bazarre')
                 message.client.serverQueue = {
                     songs: [],
                     playing: true,
@@ -46,7 +45,11 @@ module.exports = {
                 message.channel.send(embed)
             }
             else {
+
+                message.client.serverQueue.songs.push(song);
+
                 if(noNext) {
+
                     const embed = new Discord.MessageEmbed()
                     .setColor('#3C3C3A')
                     .setTitle('🔊・Ajouter à la playliste')
@@ -68,7 +71,7 @@ module.exports = {
                 // message.channel.send("😅 Youtube en bazarre")
                 const song_exec = connection.play(ytdl(song.url, { filter: 'audioonly' } )).on('finish', () => {
                     message.client.serverQueue.songs.shift();
-                    play(message.client.serverQueue.songs[0], connection, false);
+                    self(message.client.serverQueue.songs[0], connection, false);
     
                     try {
                         const embed = new Discord.MessageEmbed()
@@ -82,11 +85,12 @@ module.exports = {
                         .setImage(message.client.serverQueue.songs[0].thumbnails[0].url)
                         .setFooter(message.author.username, message.author.avatarURL())
                         .setTimestamp()
+
+                        message.channel.send(embed)
                     } catch(err) {
                         return;
                     }
-    
-                    message.channel.send(embed)
+
                 });
     
                 song_exec.setVolume(0.5);
@@ -118,7 +122,7 @@ module.exports = {
                 }
 
                 if(element.type == 'video') {
-                    play(element, connection);
+                    self(element, connection);
                 }
                 
             }

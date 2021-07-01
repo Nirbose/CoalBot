@@ -59,7 +59,7 @@ module.exports = {
                                 ]},
                             });
                             const embed = new Discord.MessageEmbed()
-                            .setColor('3C3C3A')
+                            .setColor(process.color)
                             .setTitle(`📊 - ${message.guild.name} - Stats`)
                             .setDescription(`Stats du mois de ${mouths[d_mouth - 1]}.`)
                             .addFields(
@@ -91,7 +91,7 @@ module.exports = {
                                 ]},
                             });
                             const embed = new Discord.MessageEmbed()
-                            .setColor('3C3C3A')
+                            .setColor(process.color)
                             .setTitle(`📊 - ${message.guild.name} - Stats`)
                             .setDescription(`Stats du mois de ${mouths[d_mouth - 2]} a ${mouths[d_mouth - 1]}.`)
                             .addFields(
@@ -150,7 +150,7 @@ module.exports = {
                 });
 
                 const embed = new Discord.MessageEmbed()
-                .setColor('3C3C3A')
+                .setColor(process.color)
                 .setTitle(`📊 - ${message.guild.name} - Stats`)
                 .setDescription(`Stats du mois de ${month1} a ${month2}.`)
                 .addFields(field.reverse())
@@ -215,7 +215,7 @@ module.exports = {
                         ]},
                     });
                     const embed = new Discord.MessageEmbed()
-                    .setColor('3C3C3A')
+                    .setColor(process.color)
                     .setTitle(`📊 - ${message.guild.name} - Stats`)
                     .setDescription(`Stats du mois de ${mouths[d_mouth - 1]}.`)
                     .addFields(
@@ -241,7 +241,7 @@ module.exports = {
                         ]},
                     });
                     const embed = new Discord.MessageEmbed()
-                    .setColor('3C3C3A')
+                    .setColor(process.color)
                     .setTitle(`📊 - ${message.guild.name} - Stats`)
                     .setDescription(`Stats du mois de ${mouths[d_mouth - 2]} a ${mouths[d_mouth - 1]}.`)
                     .addFields(

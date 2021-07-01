@@ -33,7 +33,7 @@ module.exports = {
                     
                     // Embed
                     const embed = new Discord.MessageEmbed()
-                    .setColor('#3C3C3A')
+                    .setColor(process.color)
                     .setTitle('Warn')
                     .addFields(
                         {name: 'User Warn', value: `${member}`},
@@ -62,7 +62,7 @@ module.exports = {
 
                     // Embed
                     const embed = new Discord.MessageEmbed()
-                    .setColor('#3C3C3A')
+                    .setColor(process.color)
                     .setTitle('Warn')
                     .addFields(
                         {name: 'User Warn', value: `${member}`},

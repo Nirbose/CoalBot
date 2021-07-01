@@ -10,13 +10,13 @@ module.exports = {
 
         if (!args[0]) {
             let embed = new Discord.MessageEmbed()
-            .setColor('#3C3C3A')
+            .setColor(process.color)
             .setDescription('Votre avatar :')
             .setImage(message.author.avatarURL())
             return message.channel.send(embed);
 		} else {
             let embed = new Discord.MessageEmbed()
-            .setColor('#3C3C3A')
+            .setColor(process.color)
             .setDescription(`L'avatar de ${member} :`)
             .setImage(member.user.avatarURL())
             return message.channel.send(embed);

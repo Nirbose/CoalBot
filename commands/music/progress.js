@@ -69,6 +69,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
         .setTitle(serverQueue.songs[0].title)
         .setDescription(`Votre musique :\n${time} [  ${bar}  ] ${serverQueue.songs[0].duration}`)
+        .setColor(process.color)
         .setTimestamp()
 
         message.channel.send(embed);

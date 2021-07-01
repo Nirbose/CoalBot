@@ -25,7 +25,7 @@ module.exports = {
             }
             
             const embed = new MessageEmbed()
-            .setColor('#3C3C3A')
+            .setColor(process.color)
             .setTitle('Feeling !')
             .setDescription(`${message.author} pleure sur l\'épole de ${user}`)
             .setImage(data.link)

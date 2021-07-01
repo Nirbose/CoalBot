@@ -19,7 +19,7 @@ module.exports = {
             let categorieCount = 0;
 
             const embed = new Discord.MessageEmbed()
-            .setColor('3C3C3A')
+            .setColor(process.color)
             .setTitle("Help")
             .setDescription(`Voici toute les commandes que possède ${message.client.user.username}`)
             .setAuthor(message.guild.name, message.guild.iconURL())
@@ -51,7 +51,7 @@ module.exports = {
                     noFind = 0;
 
                     const embed = new Discord.MessageEmbed()
-                    .setColor('3C3C3A')
+                    .setColor(process.color)
                     .setTitle(`Info sur la commande *${commandName}*`)
                     .setDescription(`Les commandes s'utilisent en envoyant simplement la commande comme un message, ajouter simplement ${prefix} devant. \n Rien de plus simple !`)
                     .addField(`:information_source: ${element['categorie']} \n`, `**${prefix}${element['name']}** : ${element['description']}` )

@@ -39,7 +39,7 @@ module.exports = {
         let result = field.split(',');
 
         const embed = new Discord.MessageEmbed()
-        .setColor('3C3C3A')
+        .setColor(process.color)
         .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 
         for (let index = 0; index < number; index++) {

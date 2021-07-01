@@ -10,10 +10,16 @@ const {
     loadCommands
 } = require("./app/util/loader");
 
+// Client Discord
 client.commands = new Discord.Collection()
 client.music = new Map();
 client.serverQueue;
 client.voiceCreate = [];
+
+// Process Node.js
+process.color = '3C3C3A';
+process.successColor = '';
+process.errorColor = '';
 
 loadCommands(client, __dirname + "/commands/");
 loadEvents(client, __dirname + "/events/");

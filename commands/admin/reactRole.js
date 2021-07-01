@@ -35,7 +35,7 @@ module.exports = {
                         })
                         
                         const embed = new Discord.MessageEmbed()
-                        .setColor('#3C3C3A')
+                        .setColor(process.color)
                         .setTitle('RecapList')
                         .addFields({name: 'Message : Channel', value: `${msgId} Dans <#${chanId}>`},field)
                         .setTimestamp()
@@ -95,7 +95,7 @@ module.exports = {
                                         }
     
                                         const embed = new Discord.MessageEmbed()
-                                        .setColor('#3C3C3A')
+                                        .setColor(process.color)
                                         .setTitle('ReactionRole Resumer')
                                         .addFields(
                                             [{name: 'Message', value: `${messageId}`},

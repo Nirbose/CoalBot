@@ -9,7 +9,7 @@ module.exports = {
         if(args.length) {
             const plat = args[0];
             const embed = new Discord.MessageEmbed()
-            .setColor('#3C3C3A')
+            .setColor(process.color)
             .addFields({name: `Votre commande !`, value: `Vous avez commandez un(e) ${plat}, validez vous ? `})
             .setTimestamp();
             message.channel.send(embed).then(embedMessage => {
@@ -36,7 +36,7 @@ module.exports = {
 
         } else {
             const embed = new Discord.MessageEmbed()
-            .setColor('#3C3C3A')
+            .setColor(process.color)
             .addFields({name: `Vous ne commandez rien ?`, value: `Veillez justifier se que vous commander.`})
             .setTimestamp();
             message.channel.send(embed);

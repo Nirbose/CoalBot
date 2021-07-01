@@ -1,7 +1,14 @@
+const Discord = require('discord.js');
+
 module.exports = {
     name: "giveaway",
     description: "Commande de giveaway",
     execute(message) {
-        message.channel.send('Giveaway !')
+        // const embed =  new Discord.MessageEmbed()
+        // .setColor('')
+
+        console.log(process.memoryUsage());
+
+        message.channel.send('okey');
     }
 }

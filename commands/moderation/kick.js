@@ -27,7 +27,7 @@ module.exports = {
         })
 
         const embed = new Discord.MessageEmbed()
-        .setColor('#3C3C3A')
+        .setColor(process.color)
         .setTitle('Membre Kick')
         .addFields(
             {name: 'User Kick', value: `${member}`},

@@ -16,7 +16,7 @@ module.exports = {
         let userGameArray = [];
 
         const embed = new Discord.MessageEmbed()
-        .setColor('3C3C3A')
+        .setColor(process.color)
         .setDescription(fullBlock)
         .setTimestamp()
         .setFooter(message.author.username, message.author.avatarURL())
@@ -38,7 +38,7 @@ module.exports = {
                     fullBlock = fullBlock.toString().replace(/,/g, '')
 
                     const newEmbed = new Discord.MessageEmbed()
-                    .setColor('3C3C3A')
+                    .setColor(process.color)
                     .setDescription(fullBlock)
                     .setTimestamp()
                     .setFooter(message.author.username, message.author.avatarURL())
@@ -52,7 +52,7 @@ module.exports = {
                     fullBlock = fullBlock.toString().replace(/,/g, '')
 
                     const newEmbed = new Discord.MessageEmbed()
-                    .setColor('3C3C3A')
+                    .setColor(process.color)
                     .setDescription(fullBlock)
                     .setTimestamp()
                     .setFooter(message.author.username, message.author.avatarURL())

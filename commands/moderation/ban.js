@@ -32,7 +32,7 @@ module.exports = {
 
         const banEmbed = new Discord.MessageEmbed()
         .setTitle('Membre Bannis')
-        .setColor('#3C3C3A')
+        .setColor(process.color)
         .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
         .addField('User Bannis', member)
         .addField('Bannis par', message.author)
@@ -44,7 +44,7 @@ module.exports = {
         const banUserEmbed = new Discord.MessageEmbed()
         .setAuthor(message.guild.name, message.guild.iconURL())
         .setTitle('CoalStudio vous ont ban !')
-        .setColor('3C3C3A')
+        .setColor(process.color)
         .setDescription(`Salut ${member}, tu as été banni par ${message.author} de CoalStudio pour la raison : \n${reason}`)
         .setTimestamp()
 

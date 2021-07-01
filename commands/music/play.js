@@ -32,7 +32,7 @@ module.exports = {
     
                 const embed = new Discord.MessageEmbed()
                     .setTitle(`${song.title}`)
-                    .setColor('#3C3C3A')
+                    .setColor(process.color)
                     .setDescription(`🎶 - Je lance **${song.title}** de la chaîne de __${song.author.name}__ !`)
                     .addFields(
                         {name: "Views :", value: song.views, inline: true},
@@ -51,7 +51,7 @@ module.exports = {
                 if(noNext) {
 
                     const embed = new Discord.MessageEmbed()
-                    .setColor('#3C3C3A')
+                    .setColor(process.color)
                     .setTitle('🔊・Ajouter à la playliste')
                     .setDescription(`**${song.title}** a été ajouté à la playliste actuellement construite. 🎵`)
                     .addFields(
@@ -76,7 +76,7 @@ module.exports = {
                     try {
                         const embed = new Discord.MessageEmbed()
                         .setTitle(`${message.client.serverQueue.songs[0].title}`)
-                        .setColor('#3C3C3A')
+                        .setColor(process.color)
                         .setDescription(`🎶 - Je lance **${message.client.serverQueue.songs[0].title}** de la chaîne de __${message.client.serverQueue.songs[0].author.name}__ !`)
                         .addFields(
                             {name: "Views :", value: song.views, inline: true},

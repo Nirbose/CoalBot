@@ -17,7 +17,7 @@ module.exports = {
 
         // Embed
         let embed = new Discord.MessageEmbed()
-        .setColor('3C3C3A')
+        .setColor(process.color)
         .setTitle('Sondage :')
         .addField(msg, barStat.join(''))
         .addField(":green_square: Oui", `${yesPercent}%`, true)
@@ -51,7 +51,7 @@ module.exports = {
 
                 // Actualisation de l'embed.
                 embed = new Discord.MessageEmbed()
-                .setColor('3C3C3A')
+                .setColor(process.color)
                 .setTitle('Sondage :')
                 .addField(msg, barStat.join(''))
                 .addField(":green_square: Oui", `${yesPercent}%`, true)
@@ -88,7 +88,7 @@ module.exports = {
 
                 // Actualisation de l'embed.
                 embed = new Discord.MessageEmbed()
-                .setColor('3C3C3A')
+                .setColor(process.color)
                 .setTitle('Sondage :')
                 .addField(msg, barStat.join(''))
                 .addField(":green_square: Oui", `${yesPercent}%`, true)

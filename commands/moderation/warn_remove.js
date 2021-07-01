@@ -30,7 +30,7 @@ module.exports = {
                     db.prepare(`UPDATE warn SET nb_warn = ${element.nb_warn -= 1} WHERE id = ${element.id}`).run()
 
                     const embed = new Discord.MessageEmbed()
-                    .setColor('#3C3C3A')
+                    .setColor(process.color)
                     .setTitle('Warn Remove')
                     .addFields(
                         {name: 'User Warn Remove', value: `${member}`},

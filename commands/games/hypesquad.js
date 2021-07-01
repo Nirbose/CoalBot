@@ -51,7 +51,7 @@ module.exports = {
                 } else if(bravery > balance && bravery > brillance) {
                     color = colors['853300026074726441'];
                 } else {
-                    color = '3C3C3A';
+                    color = process.color;
                 }
 
                 const embed = new Discord.MessageEmbed()

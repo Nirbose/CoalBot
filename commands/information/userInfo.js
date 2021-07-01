@@ -36,7 +36,7 @@ module.exports = {
 
             // Création de l'embed.
             embed.setTitle("Information sur " + info.user.username)
-            .setColor('3C3C3A')
+            .setColor(process.color)
             .setThumbnail(info.user.avatarURL())
             .addFields(
                 {name: "Pseudo :", value: `\`\`\` ${info.user.username} \`\`\``, inline: true},

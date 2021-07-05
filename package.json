@@ -22,6 +22,7 @@
     "axios": "^0.21.1",
     "chart.js": "^3.3.0",
     "dialogflow": "^1.2.0",
+    "discord-buttons": "^4.0.0",
     "discord-reply": "^0.1.2",
     "discord-together": "^1.1.14",
     "discord.js": "^12.5.3",

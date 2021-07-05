@@ -10,6 +10,8 @@ const {
     loadCommands
 } = require("./app/util/loader");
 
+require('discord-buttons')(client); 
+
 // Client Discord
 client.commands = new Discord.Collection()
 client.music = new Map();

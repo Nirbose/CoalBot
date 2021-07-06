@@ -1,26 +1,75 @@
 const { DiscordTogether } = require('discord-together');
+const Discord = require('discord.js');
+const { MessageButton, MessageActionRow, InteractionReply } = require('discord-buttons');
 
 module.exports = {
     name: "together",
     description: "Permet de jouer/regarder quelque chose ensemble.",
     categorie: "Fun",
-    execute(message, arg) {
+    execute(message) {
 
         if(!message.member.voice.channel) return message.channel.send('Il faut se trouver dans un channel vocal !');
         
-        let msg = arg[0].toLowerCase();
-        let listing = ["youtube", "chess", "poker", "betrayal", "fishing"];
         message.client.discordTogether = new DiscordTogether(message.client);
 
-        if(listing.includes(msg)) {
+        let listing = [
+            {
+                name: "youtube",
+                emoji: "❤"
+            },
+            {
+                name: "chess",
+                emoji: "🧡"
+            }, 
+            {
+                name: "poker",
+                emoji: "💛"
+            }, 
+            {
+                name: "betrayal",
+                emoji: "💚"
+            }, 
+            {
+                name: "fishing",
+                emoji: "💙"
+            }
+        ];
+        let row = new MessageActionRow();
 
-            message.client.discordTogether.createTogetherCode(message.member.voice.channelID, msg).then(async invite => {
-                return message.channel.send(`${invite.code}`);
+        const embed = new Discord.MessageEmbed()
+        .setTitle('Together')
+        .setDescription('Sélectionnez le jeu que vous voulez !')
+        .setColor(process.color)
+        .setTimestamp()
+
+        listing.forEach(b => {
+            let button = new MessageButton()
+            .setStyle('grey')
+            .setLabel(b.name)
+            .setEmoji(b.emoji)
+            .setID(b.name)
+
+            row.addComponents(button);
+        });
+
+        message.channel.send({ embed: embed, components: row }).then(msg => {
+            message.client.on('clickButton', async (button) => {
+                if(button.clicker.user.bot) return;
+
+                button.reply.defer()
+    
+                message.client.discordTogether.createTogetherCode(message.member.voice.channelID, button.id).then(async invite => {
+    
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle('Together')
+                    .setDescription(`[Click ici](${invite.code}) pour jouer a au jeu que tu as sélectionné ! \n Bonne partie`)
+                    .setColor(process.color)
+                    .setTimestamp()
+    
+                    msg.edit({embed: embed, components: []});
+                });
             });
-
-        } else {
-            return message.channel.send("L'argument n'est pas dans ma liste, Voila ma liste : `youtube`, `chess`, `poker`, `betrayal`, `fishing`")
-        }
+        })
 
     }
 }

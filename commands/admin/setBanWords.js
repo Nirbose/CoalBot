@@ -1,4 +1,5 @@
 const fs = require('fs');
+const {MessageEmbed} = require('discord.js');
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('./db/database.db')
 
@@ -12,11 +13,13 @@ module.exports = {
 
         if(!arg[0]) return message.channel.send("Il me faut un mot a ban.");
 
-        let word = arg[0].toLowerCase()
+        let word = arg[0].toLowerCase();
 
         db.prepare(`INSERT INTO wordBanned(word, userId) VALUES(?, ?)`, [word, message.author.id]).run()
 
-        message.channel.send("Mot enregistrer.");
+        const embed = process.embedSuccessDefault.addField('Mot enregistré :', ` \`\`\` ${word} \`\`\` `)
+
+        message.channel.send(embed);
 
     }
 }

@@ -19,9 +19,11 @@ client.serverQueue;
 client.voiceCreate = [];
 
 // Process Node.js
-process.color = '3C3C3A';
-process.successColor = '';
-process.errorColor = '';
+process.color = 'DBC33B';
+process.successColor = 'GREEN';
+process.errorColor = 'RED';
+
+process.embedSuccessDefault = new Discord.MessageEmbed().setTitle('Succès !').setColor(process.successColor).setDescription('La commande a été exécutée avec succès !').setTimestamp();
 
 loadCommands(client, __dirname + "/commands/");
 loadEvents(client, __dirname + "/events/");

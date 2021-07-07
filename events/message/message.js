@@ -225,8 +225,9 @@ module.exports = async (client, message) => {
 	} catch (error) {
 		console.error(error);
 		const embed = new Discord.MessageEmbed()
-		.setColor('#3C3C3A')
-		.addField(`**Désolé**`, `il y a eu une erreur en essayant d\'exécuter cette commande!`)
+		.setColor(process.errorColor)
+		.setTitle('Erreur !')
+		.setDescription(`❌ Désolé, une erreur s'est produite lors de l'exécution de cette commande. \n \`\`\` ${error} \`\`\``)
 		.setTimestamp();
 		message.reply(embed);
 	}

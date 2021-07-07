@@ -4,6 +4,8 @@ module.exports = {
     name: 'test',
     execute(message) {
 
+        message.send('tets');
+
         let option = new MessageMenuOption()
         .setLabel('Your Label')
         .setEmoji('🍔')

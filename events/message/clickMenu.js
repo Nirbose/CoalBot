@@ -9,10 +9,12 @@ module.exports = async (client, menu) => {
     let emoj = [];
     let rol = [];
     let type = [];
+    let allRole = [];
     const member = menu.message.guild.members.cache.get(menu.clicker.user.id);
     db.all(`SELECT * FROM role`, (err, rows) => {
         rows.forEach(element => {
             if(menu.message.id == element.menuId && menu.channel.id == element.channelId) {
+                allRole.push(menu.message.guild.roles.cache.get(element.role)) 
                 if(menu.values.includes(element.emoji)) {
                     emoj.push(element.emoji)
                     rol.push(menu.message.guild.roles.cache.get(element.role)) 
@@ -22,27 +24,23 @@ module.exports = async (client, menu) => {
         });
         
         for (i in menu.values) {
-            //revoir le sys pour retirer quand tu remove
-            if(menu.values.includes(emoj[i])) {
+            if(rol.length>i) {
+                let removeIndex = allRole.map(function(item) { return item.id; }).indexOf(rol[i].id);
+                allRole.splice(removeIndex, 1)
+            }
+            for (i in allRole) {
+                member.roles.remove(allRole[i])
+            }
+            if(menu.values.includes(emoj[i]) && menu.values.includes('Valider')) {
                 if(type[i] == 'retirer') {
-                    if(member.roles.cache.has(rol[i].id)) {
-                        member.roles.remove(rol[i])
-                    }
                     member.roles.remove(rol[i])
-                    menu.reply.defer()
                 } else {
-                    if(member.roles.cache.has(rol[i].id)) {
-                        member.roles.remove(rol[i])
-                    } else {
-                        member.roles.add(rol[i])
-                    }
-                    menu.reply.defer()
-                    
+                    member.roles.add(rol[i])
                 }
             }
-            
         }
-
+        if(menu.values.includes('Valider')) menu.reply.defer()
+        
     });
 
 }

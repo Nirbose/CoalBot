@@ -5,8 +5,6 @@ const sqlite3 = require('sqlite3');
 let db = new sqlite3.Database("./db/database.db")
 const { MessageMenuOption, MessageMenu, MessageActionRow } = require('discord-buttons');
 
-//faire !reac delete pour retirer un emoji qui ajouter/retire un role
-
 module.exports = {
     name: "reac",
     description: "Permet d'ajouter ou de supprimer un role avec des réactions'",
@@ -19,7 +17,6 @@ module.exports = {
         let mode = arg[0];
         let field = [];
         let menuId;
-
         if(mode == 'list') {
             db.all(`SELECT messageId, COUNT(*) FROM role GROUP BY messageId HAVING COUNT(*) > 0`, (err, rows) => {
                 if(err) {
@@ -48,11 +45,66 @@ module.exports = {
                     })
                 }
             })
+            console.log(mode == 'supprimer')
+        } else if (mode == 'supprimer') { 
+                try {
+                    chan_id = arg[1].split(/[^0-9]/)[2];
+                    if(message.guild.channels.cache.get(chan_id) === undefined) return message.channel.send("Ce channel n'existe pas !")
+                    messageId = arg[2];
+                    emoj = arg[3];
+                    let tempem;
+                    let tempmes;
+                    console.log(messageId)
+                    message.client.channels.cache.get(chan_id).messages.fetch(messageId).then(function (comp) {
+                        component = comp.components
+                        opt = component[0].components[0].options
+                        for(i in opt) {
+                            if(opt[i].value == emoj) opt.splice(i, 1)
+                        }
 
+                        let select = new MessageMenu()
+                        .setID('customid')
+                        .setPlaceholder('Click me! :D')
+                        .setMinValues(0)
+                        .setMaxValues(opt.length)
+                        for (i in opt) {
+                            let temp = new MessageMenuOption()
+                            .setLabel(opt[i].label)
+                            .setEmoji(opt[i].emoji.name)
+                            .setValue(opt[i].value)
+                            .setDescription(opt[i].description)
+                            select.addOption(temp)
+                        }
+
+                        const row = new MessageActionRow()
+                        row.addComponent(select)
+                        comp.edit({components:[row]})
+
+                    })
+                    db.all(`SELECT * FROM role`, (err, rows) => {
+                        rows.forEach(element => {
+                            if(element.menuId == messageId && chan_id == element.channelId && emoj == element.emoji) tempem = true;
+                            if(element.menuId == messageId && chan_id == element.channelId) tempmes = true
+                        })
+                        if(tempem != true) return message.channel.send(`L'emoji ${emoj} n'est pas associer a ce message`)
+                        if(tempmes != true) return message.channel.send(`Ce message n'est pas un react role`)
+                        db.run(`DELETE FROM role WHERE menuId=? AND emoji =?`, [messageId, emoj], function(err) {
+                            if (err) {
+                              return console.error(err.message);
+                            }
+                            return message.channel.send('React Role supprimer avec succes')
+                          });
+                    })
+                    message.client.channels.cache.get(chan_id).messages.fetch({ limit: 50 }).then(messages => {
+                        if(messages.has(messageId) == false) return message.channel.send('Ce message est introuvable')
+                    });
+
+                } catch {
+                    return message.channel.send("Vous devez entrée la commande sous cette forme: `!reac *ajouter/retirer/supprimer* *channel* *id message* *role*`");
+                }
         } else {
-
             try {
-                if(mode != 'ajouter' && mode != 'retirer') return message.channel.send("Vous devez entrée la commande sous cette forme: `!reac *ajouter/retirer* *channel* *id message* *role*`");
+                if(mode != 'ajouter' && mode != 'retirer' && mode != 'supprimer') return message.channel.send("Vous devez entrée la commande sous cette forme: `!reac *ajouter/retirer/supprimer* *channel* *id message* *role*`");
             
                 chan_id = arg[1].split(/[^0-9]/)[2];
                 if(message.guild.channels.cache.get(chan_id) === undefined) return message.channel.send("Ce channel n'existe pas !")
@@ -61,7 +113,7 @@ module.exports = {
                 
                 roleId = arg[3].split(/[^0-9]/)[3];
             } catch {
-                return message.channel.send("Vous devez entrée la commande sous cette forme: `!reac *ajouter/retirer* *channel* *id message* *role*`");
+                return message.channel.send("Vous devez entrée la commande sous cette forme: `!reac *ajouter/retirer/supprimer* *channel* *id message* *role*`");
             }
 
             if(message.guild.roles.cache.get(roleId) === undefined) return message.channel.send("Ce role n'existe pas !")
@@ -106,8 +158,6 @@ module.exports = {
                                             })
                                         }
                                     })
-                                    
-
                                     const embed = new Discord.MessageEmbed()
                                     .setColor(process.color)
                                     .setTitle('ReactionRole Resumer')
@@ -128,11 +178,19 @@ module.exports = {
                                     .setValue(reac)
                                     .setDescription(`Cliquez pour ${mode} le role`)
 
+                                    let valid = new MessageMenuOption()
+                                    .setLabel("Valider")
+                                    .setEmoji('✅')
+                                    .setValue("Valider")
+                                    .setDescription(`Cliquez pour valider votre choix`)
+
                                     let select = new MessageMenu()
                                         .setID('customid')
                                         .setPlaceholder('Click me! :D')
                                         .addOption(option)
+                                        .addOption(valid)
                                         .setMinValues(0)
+                                        .setMaxValues(2)
 
                                     const row = new MessageActionRow()
                                     
@@ -157,9 +215,9 @@ module.exports = {
                                                 .setDescription(opti[i].desc)
                                                 select.addOption(temp)
                                             }
-                                            select.setMaxValues(opti.length+1)
+                                            select.setMaxValues(opti.length+2)
                                             row.addComponent(select)
-                                            console.log(opti)
+
                                             message.client.channels.cache.get(chan_id).messages.fetch(menuId).then(function (comp) {
                                                 comp.edit({components:[row]})
                                                 db.prepare(`INSERT INTO role(messageId, channelId, emoji, role, mode, menuId) VALUES(?, ?, ?, ?, ?,?)`, [messageId, chan_id, reac, roleId, mode, comp.id], err => {

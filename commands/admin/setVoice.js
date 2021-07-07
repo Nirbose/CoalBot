@@ -32,7 +32,7 @@ module.exports = {
             db.prepare(`INSERT INTO channels(name, channelId) VALUES(?, ?)`, ['voice', id]).run();
         }
 
-        message.channel.send("Channel bien sauvegarder.")
+        message.channel.send(process.embedSuccessDefault.addField('Channel :', ` \`\`\` ${id} \`\`\` `))
 
     }
 }

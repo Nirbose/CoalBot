@@ -13,6 +13,11 @@ module.exports = {
 
         roles.forEach(element => {
             if(element.name != '@everyone') {
+
+                db.all(`SELECT * FROM role WHERE role = ${element.id}`, (err, rows) => {
+                    console.log(err + '\n ----------------------------')
+                });
+
                 let temp = new MessageMenuOption()
                 .setLabel(element.name)
                 .setDescription('test')

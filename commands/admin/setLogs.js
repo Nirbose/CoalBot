@@ -18,6 +18,6 @@ module.exports = {
             }
         }).run()
 
-        message.channel.send("Channel bien sauvegardé.")
+        message.channel.send(process.embedSuccessDefault.addField('Channel :', ` \`\`\` ${message.channel.id} \`\`\` `))
     }
 }

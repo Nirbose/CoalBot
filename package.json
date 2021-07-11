@@ -20,6 +20,7 @@
     "@discordjs/opus": "^0.5.3",
     "@google-cloud/dialogflow": "^3.5.0",
     "axios": "^0.21.1",
+    "canvas": "^2.8.0",
     "chart.js": "^3.3.0",
     "dialogflow": "^1.2.0",
     "discord-buttons": "^4.0.0",

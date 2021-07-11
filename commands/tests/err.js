@@ -1,7 +1,8 @@
 const { MessageMenuOption, MessageMenu } = require('discord-buttons');
 
 module.exports = {
-    name: 'test',
+    name: 'err',
+    categorie: 'Tests',
     execute(message) {
 
         message.send('tets');

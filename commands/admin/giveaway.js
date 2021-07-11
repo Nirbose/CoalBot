@@ -4,6 +4,7 @@ const { MessageButton, MessageActionRow } = require('discord-buttons');
 module.exports = {
     name: "giveaway",
     description: "Commande de giveaway",
+    categorie: "👑 - Admin",
     execute(message) {
 
         let style = 'grey';
@@ -56,8 +57,7 @@ module.exports = {
         .setTimestamp()
 
         message.client.on('clickButton', async (button) => {
-            console.log(button);
-            button.channel.send("Mange t'es mort.")
+            button.reply.send("Mange t'es mort.")
         });
         
 

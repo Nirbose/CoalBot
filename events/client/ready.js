@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const sqlite3 = require('sqlite3');
 let db = new sqlite3.Database("./db/database.db")
 
@@ -28,9 +29,20 @@ module.exports = client => {
             }
             if(channel.name == "log") {
                 find = true;
-                client.channels.cache.get(channel.channelId).send('<a:9608loading:856616984111611965> Loading').then((msg) => {
+
+                const embed = new Discord.MessageEmbed()
+                .setColor(process.color)
+                .setDescription('<a:9608loading:856616984111611965> **|  Loading**')
+
+                client.channels.cache.get(channel.channelId).send(embed).then((msg) => {
                     setTimeout(function () {
-                        msg.edit('Bot chargé !');
+
+                        const embed = new Discord.MessageEmbed()
+                        .setColor(process.successColor)
+                        .setTitle('Chargé')
+                        .setDescription('Le bot est chargé !')
+
+                        msg.edit(embed);
                     }, 2500)
                 })
             }

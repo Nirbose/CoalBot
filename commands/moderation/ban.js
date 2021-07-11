@@ -22,14 +22,6 @@ module.exports = {
 
         if(!reason) reason = 'Aucun raison';
 
-        message.channel.send(member);
-
-        member.ban(`${reason}`)
-        .catch(err => {
-            console.log(err)
-            if(err) return message.channel.send('Un problème est survenu.')
-        })
-
         const banEmbed = new Discord.MessageEmbed()
         .setTitle('Membre Bannis')
         .setColor(process.color)
@@ -49,6 +41,8 @@ module.exports = {
         .setTimestamp()
 
         member.send(banUserEmbed);
+
+        member.ban({reason: `${reason}`});
 
     }
 }

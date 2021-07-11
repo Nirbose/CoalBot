@@ -22,7 +22,7 @@ module.exports = {
 
             if(!userBan) return message.channel.send("Je n'ais pas trouver l'utilisateur dans la liste des bans.");
 
-            await message.guild.members.unban(bUser.user, reason).catch(err => {
+            await message.guild.members.unban(userBan.user, reason).catch(err => {
                 return message.channel.send("Il y a eu une erreur lors du unban...");
 
             }).then( () => {

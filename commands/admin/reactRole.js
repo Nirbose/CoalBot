@@ -9,8 +9,8 @@ module.exports = {
     name: "reac",
     description: "Permet d'ajouter ou de supprimer un role avec des réactions'",
     categorie: "👑 - Admin",
+    permition: "ADMINISTRATOR",
     execute(message, arg) {
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.");
         let roleId;
         let messageId;
         let chan_id;

@@ -5,8 +5,8 @@ module.exports = {
 	description: 'Commande pour lancée un sondage.',
 	aliases: ['survey', 'sond'],
     categorie: "👑 - Admin",
+    permition: "ADMINISTRATOR",
 	execute(message, arg) {
-		if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.")
         
         let yesPercent = 0;
         let noPercent = 0;

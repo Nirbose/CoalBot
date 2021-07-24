@@ -7,9 +7,8 @@ module.exports = {
     name: "setbanwords",
     description: "Permet d'ajouter un mot a ban.",
     categorie: "👑 - Admin",
+    permition: "ADMINISTRATOR",
     execute(message, arg) {
-
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.")
 
         if(!arg[0]) return message.channel.send("Il me faut un mot a ban.");
 

@@ -214,6 +214,10 @@ module.exports = async (client, message) => {
 		if(!config.isOwner.includes(message.author.id)) return message.reply('Vous ne pouvez pas executer cette commande.');
 	}
 
+	if(command.permition) {
+		if(!message.member.hasPermission(command.permition.toUpperCase())) return message.reply(`Vous ne possédez pas la permission \`${command.permition.toUpperCase()}\`.`)
+	}
+
 	if (command.guildOnly && message.channel.type === 'dm') {
 		return message.reply('Je ne peux pas exécuter cette commande dans les DM!');
 	}

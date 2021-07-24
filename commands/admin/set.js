@@ -8,6 +8,7 @@ module.exports = {
     categorie: "👑 - Admin",
     args: true,
     usage: `[${channelsNames.toString().replace(/,/g, ' | ')}] (Channel ID)`,
+    permition: "ADMINISTRATOR",
     execute(message, args) {
         let channelName = args[0].toLowerCase();
         let channelID;

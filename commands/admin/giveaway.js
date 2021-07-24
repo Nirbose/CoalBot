@@ -5,6 +5,7 @@ module.exports = {
     name: "giveaway",
     description: "Commande de giveaway",
     categorie: "👑 - Admin",
+    permition: "ADMINISTRATOR",
     execute(message) {
 
         let style = 'grey';

@@ -5,8 +5,8 @@ module.exports = {
     description: "Sondage a choix multiple",
     aliases: ['sondage_choice', 'sond_choice'],
     categorie: "👑 - Admin",
+    permition: "ADMINISTRATOR",
     execute(message, args) {
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send("Vous n'êtes pas Admin.");
 
         if(!args[0]) return message.reply("Vous devez me donner un nombre !");
         if(isNaN(args[0])) return message.reply("Vous devez me donner un nombre !");

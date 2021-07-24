@@ -21,6 +21,9 @@ const TIME = 3000;
 
 module.exports = async (client, message) => {
 
+	process.embedSuccessDefault = new Discord.MessageEmbed().setTitle('Succès !').setColor(process.successColor).setDescription('La commande a été exécutée avec succès !').setTimestamp();
+	process.embedErrorDefault = new Discord.MessageEmbed().setColor(process.errorColor).setTitle('Erreur !').setTimestamp();
+
 
 	/////////////// Anti Spam ///////////////
 	if(usersMap.has(message.author.id)) {
@@ -219,7 +222,7 @@ module.exports = async (client, message) => {
 		let reply = `Vous n'avez fourni aucun argument, ${message.author}!\n`;
 
 		if (command.usage) {
-			reply += `\nL'utilisation appropriée serait: \`\`\`${prefix}${command.name} ${command.usage}\`\`\``;
+			reply += `\nL'utilisation appropriée serait: \`\`\`${prefix}${command.name} ${command.usage}\`\`\`\n*[...]: obligatoire / (...): optionnel*`;
 		}
 
 		return message.channel.send(process.embedErrorDefault.setDescription(reply));

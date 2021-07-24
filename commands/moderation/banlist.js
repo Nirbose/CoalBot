@@ -9,6 +9,7 @@ module.exports = {
         if(!message.guild.me.hasPermission("BAN_MEMBERS")) return message.channel.send("Je n'ais pas la permition `BAN_MEMBERS`.");
 
         message.guild.fetchBans().then(bans => {
+            message.react('👍');
             if(bans.size == 0) return message.author.send("Aucun membre ban.");
 
             console.log(bans);

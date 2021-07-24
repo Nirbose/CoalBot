@@ -17,8 +17,33 @@ module.exports = async (client, oldMember, newMember) => {
             newMember.setNickname(`PSEUDO INCORECT ${count}`)
         });
 	}
+    // End Check pseudo //
 
-
+    db.all(`SELECT * FROM channels`, (err, rows) => {
+        rows.forEach(channel => {
+            if(channel.name == 'public') {
+                let findInvite = 0;
+                newMember.guild.fetchInvites().then(invites => {
+                    invites.forEach(invite => {
+                        for (let i = 0; i < newMember.presence.activities.length; i++) {
+                            if(findInvite) {
+                                return;
+                            }
+        
+                            if(newMember.presence.activities[i].type == "CUSTOM_STATUS" && newMember.presence.activities[i].state.includes(invite.code)) {
+                                findInvite = 1;
+                                return message.channel.send('Trop bien BG tu as mis une invite de CoalStudio dans ton statue !');
+        
+                            } else if(newMember.presence.activities[i].type == "CUSTOM_STATUS" && newMember.presence.activities[i].state.toLowerCase() == "coalstudio") {
+                                findInvite = 1;
+                                return message.channel.send('Trop bien BG tu as mis CoalStudio dans ton statue !')
+                            }
+                        }
+                    });
+                });
+            }
+        })
+    })
 
     let afterRole = "";
     let beforeRole = "";

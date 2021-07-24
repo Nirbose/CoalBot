@@ -183,7 +183,7 @@ module.exports = async (client, message) => {
 
 	/////////////// Reaction Message ///////////////
 
-	const hello = ['salut', 'yo', 'bonjour', 'bjr', 'hey', 'hello', 'helo'];
+	const hello = ['salut', 'yo', 'bonjour', 'bjr', 'hey', 'hello', 'helo', 'coucou'];
 
 	const content = message.content.toLowerCase().trim();
 	
@@ -196,6 +196,7 @@ module.exports = async (client, message) => {
 
 	/////////////// End Reaction Message ///////////////
 
+	// Handler
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -206,30 +207,29 @@ module.exports = async (client, message) => {
 
 	if (!command) return;
 
+	if(command.isOwner) {
+		if(!config.isOwner.includes(message.author.id)) return message.reply('Vous ne pouvez pas executer cette commande.');
+	}
+
 	if (command.guildOnly && message.channel.type === 'dm') {
 		return message.reply('Je ne peux pas exécuter cette commande dans les DM!');
 	}
 
 	if (command.args && !args.length) {
-		let reply = `Vous n'avez fourni aucun argument, ${message.author}!`;
+		let reply = `Vous n'avez fourni aucun argument, ${message.author}!\n`;
 
 		if (command.usage) {
-			reply += `\nL'utilisation appropriée serait: \`${prefix}${command.name} ${command.usage}\``;
+			reply += `\nL'utilisation appropriée serait: \`\`\`${prefix}${command.name} ${command.usage}\`\`\``;
 		}
 
-		return message.channel.send(reply);
+		return message.channel.send(process.embedErrorDefault.setDescription(reply));
 	}
 
 	try {
-		command.execute(message, args);
+		command.execute(message, args)
 	} catch (error) {
 		console.error(error);
-		const embed = new Discord.MessageEmbed()
-		.setColor(process.errorColor)
-		.setTitle('Erreur !')
-		.setDescription(`❌ Désolé, une erreur s'est produite lors de l'exécution de cette commande. \n \`\`\` ${error} \`\`\``)
-		.setTimestamp();
-		message.reply(embed);
+		message.reply(process.embedErrorDefault.setDescription(`❌ Désolé, une erreur s'est produite lors de l'exécution de cette commande. \n \`\`\` ${error} \`\`\``));
 	}
 
 };

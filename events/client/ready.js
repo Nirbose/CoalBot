@@ -23,6 +23,8 @@ module.exports = client => {
 
     db.all(`SELECT * FROM channels`, (err, rows) => {
         find = false
+
+        if(!rows) return;
         rows.forEach(channel => {
             if(find) {
                 return;

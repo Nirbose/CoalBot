@@ -3,6 +3,12 @@ const Discord = require("discord.js");
 const config = require('../../config.json')
 const prefix = config.prefix;
 
+let count = 0;
+let maxCount = 3;
+let objCommand = {};
+let arrayCategory = [];
+let categories = [];
+
 module.exports = {
     name: "help",
     description:"Affiche la liste de toute les commandes",
@@ -12,11 +18,6 @@ module.exports = {
         let noFind = 1;
 
         if(!arg[0]) {
-            let categorie = "";
-            let names = [];
-
-            let commandsCount = 0;
-            let categorieCount = 0;
 
             const embed = new Discord.MessageEmbed()
             .setColor(process.color)
@@ -25,22 +26,67 @@ module.exports = {
             .setAuthor(message.guild.name, message.guild.iconURL())
             .addField('\u200B', '\u200B');
 
-            message.client.commands.forEach(elements => {
-                if(categorie != elements.categorie) {
-
-                    if(names.length != 0) {
-                        embed.addField(categorie, `**- **${names.toString().replace(/,/g, ', ')}`)
-                        categorieCount++;
-                        commandsCount += names.length;
-                        names = [];
-                    }
-                    
+            message.client.commands.forEach(command => {
+                if(objCommand[command.categorie]) {
+                    objCommand[command.categorie].push(command.name)
+                } else {
+                    objCommand[command.categorie] = [command.name]
+                    categories.push(command.categorie);
                 }
-                names.push(elements.name);
-                categorie = elements.categorie
+            });
+
+            arrayCategory = categories;
+            result = arrayCategory.slice(count, maxCount);
+
+            for (let i = 0; i < result.length; i++) {
+                const element = result[i];
+                embed.addField(element, '➜'+objCommand[element].toString().replace(/,/g, '\n➜'), true)
+            }
+            
+            // embed.setFooter(`${commandsCount} commandes et ${categorieCount} catégories`)
+            message.channel.send(embed).then(msg => {
+                msg.react('◀');
+                msg.react('▶');
+
+                msg.client.on('messageReactionAdd', async (reaction, user) => {
+                    if (user.bot) return;
+
+                    arrayCategory = categories;
+
+                    const newEmbed = new Discord.MessageEmbed()
+                    .setColor(process.color)
+                    .setTitle("Help")
+                    .setDescription(`Voici toute les commandes que possède ${message.client.user.username}`)
+                    .setAuthor(message.guild.name, message.guild.iconURL())
+                    .addField('\u200B', '\u200B');
+
+                    reaction.users.remove(user.id)
+
+                    if(reaction.emoji.name == '◀') {
+                        if(count == 0) return;
+
+                        count -= 3;
+                        maxCount -= 3;
+                    } else if(reaction.emoji.name == '▶') {
+                        count += 3;
+
+                        if(count >= arrayCategory.length) return count -= 3;
+
+                        maxCount += 3;
+
+                    }
+
+                    result = arrayCategory.slice(count, maxCount);
+                    console.log(arrayCategory);
+
+                    for (let i = 0; i < result.length; i++) {
+                        const element = result[i];
+                        newEmbed.addField(element, '➜'+objCommand[element].toString().replace(/,/g, '\n➜'), true)
+                    }
+
+                    await msg.edit(newEmbed);
+                });
             })
-            embed.setFooter(`${commandsCount} commandes et ${categorieCount} catégories`)
-            message.channel.send(embed);
         }
 
         if(arg) {

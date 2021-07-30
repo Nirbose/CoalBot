@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database("./db/database.db");
-channelsNames = ['public', 'chatbot', 'goodbye', 'welcome', 'logs', 'voice'];
+channelsNames = ['public', 'chatbot', 'goodbye', 'welcome', 'logs', 'voice', 'rss'];
 
 module.exports = {
     name: 'set',

@@ -93,12 +93,19 @@ module.exports = async (client, member) => {
 
         rows.forEach(channel => {
             if(channel.name == "log") {
+                let date = new Date(member.user.createdTimestamp)
+
                 const embed = new Discord.MessageEmbed()
-                .setColor('3C3C3A')
-                .setAuthor(member.guild.name, member.guild.iconURL())
-                .setTitle('Member Add :')
-                .addFields({name:'Info', value:`${member} vient de rejoindre le serveur.`})
+                .setColor(process.color)
+                .setAuthor(member.guild.name, message.guild.iconURL())
+                .setTitle(member.user.username + ' | New Member')
                 .setThumbnail(member.user.avatarURL())
+                .setDescription(`**${message.author.username}** vient d'arriver sur le serveur, voilà toutes les informations le concernant. `)
+                .addFields(
+                    {name: 'Pseudo :', value: member.user, inline: true},
+                    {name: 'Creation compte :', value: `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`, inline: true},
+                    {name: 'ID :', value: member.user.id, inline: true}
+                )
                 .setTimestamp()
 
                 if(find == false) client.channels.cache.get(channel.channelId).send(embed);

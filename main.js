@@ -10,11 +10,7 @@ const {
     loadCommands
 } = require("./app/util/loader");
 
-const rss = require('./app/util/rss');
-const Rss = new rss(client);
-Rss.flux('youtube');
-
-require('discord-buttons')(client); 
+require('discord-buttons')(client);
 
 // Client Discord
 client.commands = new Discord.Collection()

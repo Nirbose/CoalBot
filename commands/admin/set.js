@@ -22,7 +22,7 @@ module.exports = {
         if(!message.client.channels.cache.get(channelID)) return message.channel.send("Ce channel n'existe point.");
 
         if(channelsNames.includes(channelName)) {
-            db.prepare(`INSERT INTO channels(name, channelId) VALUES(?, ?)`, [channelName, channelID], err => {
+            db.prepare(`INSERT INTO specialChannels(flag, channelID, authorID, created_at) VALUES(?, ?, ?, datetime('now'))`, [channelName, channelID, message.author.id], err => {
                 if(err) {
                     message.channel.send(`\`\`\` ${err} \`\`\``);
                 }

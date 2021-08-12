@@ -79,44 +79,44 @@ module.exports = async (client, message) => {
 
 	/////////////// Sauvegarde msg ////////
 
-	let timestamp = message.createdTimestamp;;
-	let author = message.author.id;
-	let chan = message.channel.id;
-	let mesId = message.id;
-	let mes;
-	let dataEmbed = []
-	let dataIMG = [];
-	for (let embed of message.embeds) {
-		dataEmbed.push([`Title: ${embed.title} Author: ${embed.author} Description: ${embed.description} `])
-		for (let field of embed.fields) {
-		dataEmbed.push([`Field title: ${field.name} Field value: ${field.value}`])
-		}
-	}
+	// let timestamp = message.createdTimestamp;;
+	// let author = message.author.id;
+	// let chan = message.channel.id;
+	// let mesId = message.id;
+	// let mes;
+	// let dataEmbed = []
+	// let dataIMG = [];
+	// for (let embed of message.embeds) {
+	// 	dataEmbed.push([`Title: ${embed.title} Author: ${embed.author} Description: ${embed.description} `])
+	// 	for (let field of embed.fields) {
+	// 	dataEmbed.push([`Field title: ${field.name} Field value: ${field.value}`])
+	// 	}
+	// }
 
-	message.attachments.forEach(attachment => {
-		let url = attachment.attachment;
-		dataIMG.push([url])
-	});
+	// message.attachments.forEach(attachment => {
+	// 	let url = attachment.attachment;
+	// 	dataIMG.push([url])
+	// });
 
-	if(dataEmbed.length != 0) {
-		mes = dataEmbed
-	} else if(dataIMG != 0){
-		mes = dataIMG
-	} else {
-		mes = message.content
-	}
+	// if(dataEmbed.length != 0) {
+	// 	mes = dataEmbed
+	// } else if(dataIMG != 0){
+	// 	mes = dataIMG
+	// } else {
+	// 	mes = message.content
+	// }
 	
-	db.prepare(`INSERT INTO messages (message, messageID, channel, author, timestamp) VALUES(?, ?, ?, ?, ?)`, [mes, mesId, chan, author, timestamp], err => {
-		if(err) {
-			console.log(err);
-		}
-	}).run();
+	// db.prepare(`INSERT INTO messages (message, messageID, channel, author, timestamp) VALUES(?, ?, ?, ?, ?)`, [mes, mesId, chan, author, timestamp], err => {
+	// 	if(err) {
+	// 		console.log(err);
+	// 	}
+	// }).run();
 
 	////////////// End save msg ///////////
 
 	/////////////// Auto moderation //////////////
 
-	db.all(`SELECT * FROM wordBanned`, (err, rows) => {
+	db.all(`SELECT * FROM bannedWords`, (err, rows) => {
 		rows.forEach(word => {
 
 			let regex = new RegExp("("+ word.word +")([a-z]+)");
@@ -136,7 +136,7 @@ module.exports = async (client, message) => {
 
 	/////////////// ChatBot ///////////////
 	let input;
-	db.all(`SELECT * FROM channels`, (err, rows) => {
+	db.all(`SELECT * FROM specialChannels`, (err, rows) => {
 		rows.forEach(channel => {
 			if(channel.name == 'chatbot') {
 				if (message.channel.id === channel.channelId && !message.author.bot) {
@@ -191,7 +191,7 @@ module.exports = async (client, message) => {
 	const content = message.content.toLowerCase().trim();
 	
 	for (let index = 0; index < hello.length; index++) {
-		if(content.includes(hello[index])) {
+		if(content.includes(hello[index]) && message.author.id != client.user.id) {
 			message.react('👋');
 		}
 		

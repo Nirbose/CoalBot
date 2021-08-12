@@ -13,91 +13,91 @@ module.exports = {
         let find = false;
 
         // Fonction play pour exuter la musique
-        let self = function play(song, connection, noNext = true) {
-            find = true;
-            message.client.serverQueue = queue.get(message.guild.id);
+        // let self = async function play(song, connection, noNext = true) {
+        //     find = true;
+        //     message.client.serverQueue = queue.get(message.guild.id);
 
-            if(!message.client.serverQueue) {
-                message.channel.send('😅 - Youtube en bazarre')
-                message.client.serverQueue = {
-                    songs: [],
-                    playing: true,
-                    connection: null,
-                };
+        //     if(!message.client.serverQueue) {
+        //         message.channel.send('😅 - Youtube en bazarre')
+        //         message.client.serverQueue = {
+        //             songs: [],
+        //             playing: true,
+        //             connection: null,
+        //         };
     
-                queue.set(message.guild.id, message.client.serverQueue);
-                message.client.serverQueue.songs.push(song);
+        //         queue.set(message.guild.id, message.client.serverQueue);
+        //         message.client.serverQueue.songs.push(song);
     
-                message.client.serverQueue.connection = connection;
+        //         message.client.serverQueue.connection = connection;
     
-                const embed = new Discord.MessageEmbed()
-                    .setTitle(`${song.title}`)
-                    .setColor(process.color)
-                    .setDescription(`🎶 - Je lance **${song.title}** de la chaîne de __${song.author.name}__ !`)
-                    .addFields(
-                        {name: "Views :", value: song.views, inline: true},
-                        {name: "Durée :", value: song.duration, inline: true}
-                    )
-                    .setImage(song.thumbnails[0].url)
-                    .setFooter(message.author.username, message.author.avatarURL())
-                    .setTimestamp()
+        //         const embed = new Discord.MessageEmbed()
+        //             .setTitle(`${song.title}`)
+        //             .setColor(process.color)
+        //             .setDescription(`🎶 - Je lance **${song.title}** de la chaîne de __${song.author.name}__ !`)
+        //             .addFields(
+        //                 {name: "Views :", value: song.views, inline: true},
+        //                 {name: "Durée :", value: song.duration, inline: true}
+        //             )
+        //             .setImage(song.thumbnails[0].url)
+        //             .setFooter(message.author.username, message.author.avatarURL())
+        //             .setTimestamp()
     
-                message.channel.send(embed)
-            }
-            else {
+        //         message.channel.send(embed)
+        //     }
+        //     else {
 
-                message.client.serverQueue.songs.push(song);
+        //         message.client.serverQueue.songs.push(song);
 
-                if(noNext) {
+        //         if(noNext) {
 
-                    const embed = new Discord.MessageEmbed()
-                    .setColor(process.color)
-                    .setTitle('🔊・Ajouter à la playliste')
-                    .setDescription(`**${song.title}** a été ajouté à la playliste actuellement construite. 🎵`)
-                    .addFields(
-                        {name: "Views :", value: song.views, inline: true},
-                        {name: "Durée :", value: song.duration, inline: true}
-                    )
-                    .setImage(song.thumbnails[0].url)
-                    .setFooter(message.author.username, message.author.avatarURL())
-                    .setTimestamp()
+        //             const embed = new Discord.MessageEmbed()
+        //             .setColor(process.color)
+        //             .setTitle('🔊・Ajouter à la playliste')
+        //             .setDescription(`**${song.title}** a été ajouté à la playliste actuellement construite. 🎵`)
+        //             .addFields(
+        //                 {name: "Views :", value: song.views, inline: true},
+        //                 {name: "Durée :", value: song.duration, inline: true}
+        //             )
+        //             .setImage(song.thumbnails[0].url)
+        //             .setFooter(message.author.username, message.author.avatarURL())
+        //             .setTimestamp()
     
-                    return message.channel.send(embed);
-                }
-            }
+        //             return message.channel.send(embed);
+        //         }
+        //     }
     
-            try {
+        //     try {
     
-                // message.channel.send("😅 Youtube en bazarre")
-                const song_exec = connection.play(ytdl(song.url, { filter: 'audioonly' } )).on('finish', () => {
-                    message.client.serverQueue.songs.shift();
-                    self(message.client.serverQueue.songs[0], connection, false);
+        //         // message.channel.send("😅 Youtube en bazarre")
+        //         await connection.play(ytdl(song.url, { filter: 'audioonly' } )).on('finish', () => {
+        //             console.log('fin');
+        //             message.client.serverQueue.songs.shift();
+        //             // self(message.client.serverQueue.songs[0], connection, false);
     
-                    try {
-                        const embed = new Discord.MessageEmbed()
-                        .setTitle(`${message.client.serverQueue.songs[0].title}`)
-                        .setColor(process.color)
-                        .setDescription(`🎶 - Je lance **${message.client.serverQueue.songs[0].title}** de la chaîne de __${message.client.serverQueue.songs[0].author.name}__ !`)
-                        .addFields(
-                            {name: "Views :", value: song.views, inline: true},
-                            {name: "Durée :", value: song.duration, inline: true}
-                        )
-                        .setImage(message.client.serverQueue.songs[0].thumbnails[0].url)
-                        .setFooter(message.author.username, message.author.avatarURL())
-                        .setTimestamp()
+        //             try {
+        //                 const embed = new Discord.MessageEmbed()
+        //                 .setTitle(`${message.client.serverQueue.songs[0].title}`)
+        //                 .setColor(process.color)
+        //                 .setDescription(`🎶 - Je lance **${message.client.serverQueue.songs[0].title}** de la chaîne de __${message.client.serverQueue.songs[0].author.name}__ !`)
+        //                 .addFields(
+        //                     {name: "Views :", value: song.views, inline: true},
+        //                     {name: "Durée :", value: song.duration, inline: true}
+        //                 )
+        //                 .setImage(message.client.serverQueue.songs[0].thumbnails[0].url)
+        //                 .setFooter(message.author.username, message.author.avatarURL())
+        //                 .setTimestamp()
 
-                        message.channel.send(embed)
-                    } catch(err) {
-                        return;
-                    }
+        //                 message.channel.send(embed)
+        //             } catch(err) {
+        //                 return console.error(err);
+        //             }
 
-                });
-    
-                song_exec.setVolume(0.5);
-            } catch(err) {
-                return;
-            }
-        }
+        //         }).setVolume(0.5);
+
+        //     } catch(err) {
+        //         return;
+        //     }
+        // }
 
 
         // Verification
@@ -122,11 +122,98 @@ module.exports = {
                 }
 
                 if(element.type == 'video') {
-                    self(element, connection);
+                    let song = element;
+                    // self(element, connection);
+                    find = true;
+                    message.client.serverQueue = queue.get(message.guild.id);
+        
+                    if(!message.client.serverQueue) {
+                        message.channel.send('😅 - Youtube en bazarre')
+                        message.client.serverQueue = {
+                            songs: [],
+                            playing: true,
+                            connection: null,
+                        };
+            
+                        queue.set(message.guild.id, message.client.serverQueue);
+                        message.client.serverQueue.songs.push(song);
+            
+                        message.client.serverQueue.connection = connection;
+            
+                        const embed = new Discord.MessageEmbed()
+                            .setTitle(`${song.title}`)
+                            .setColor(process.color)
+                            .setDescription(`🎶 - Je lance **${song.title}** de la chaîne de __${song.author.name}__ !`)
+                            .addFields(
+                                {name: "Views :", value: song.views, inline: true},
+                                {name: "Durée :", value: song.duration, inline: true}
+                            )
+                            .setImage(song.thumbnails[0].url)
+                            .setFooter(message.author.username, message.author.avatarURL())
+                            .setTimestamp()
+            
+                        message.channel.send(embed)
+                    }
+                    else {
+        
+                        message.client.serverQueue.songs.push(song);
+        
+                        if(true) {
+        
+                            const embed = new Discord.MessageEmbed()
+                            .setColor(process.color)
+                            .setTitle('🔊・Ajouter à la playliste')
+                            .setDescription(`**${song.title}** a été ajouté à la playliste actuellement construite. 🎵`)
+                            .addFields(
+                                {name: "Views :", value: song.views, inline: true},
+                                {name: "Durée :", value: song.duration, inline: true}
+                            )
+                            .setImage(song.thumbnails[0].url)
+                            .setFooter(message.author.username, message.author.avatarURL())
+                            .setTimestamp()
+            
+                            return message.channel.send(embed);
+                        }
+                    }
+            
+                    try {
+            
+                        // message.channel.send("😅 Youtube en bazarre")
+                        await connection.play(ytdl(song.url, { filter: 'audioonly' } )).on('finish', () => {
+                            console.log('fin');
+                            message.client.serverQueue.songs.shift();
+                            // self(message.client.serverQueue.songs[0], connection, false);
+            
+                            try {
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle(`${message.client.serverQueue.songs[0].title}`)
+                                .setColor(process.color)
+                                .setDescription(`🎶 - Je lance **${message.client.serverQueue.songs[0].title}** de la chaîne de __${message.client.serverQueue.songs[0].author.name}__ !`)
+                                .addFields(
+                                    {name: "Views :", value: song.views, inline: true},
+                                    {name: "Durée :", value: song.duration, inline: true}
+                                )
+                                .setImage(message.client.serverQueue.songs[0].thumbnails[0].url)
+                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setTimestamp()
+        
+                                message.channel.send(embed)
+                            } catch(err) {
+                                return console.error(err);
+                            }
+        
+                        }).setVolume(0.5);
+        
+                    } catch(err) {
+                        return;
+                    }
                 }
                 
             }
 
+        })
+        .catch(err => {
+            console.error(err);
         })
           
     }

@@ -14,7 +14,7 @@ module.exports = {
 
         let word = arg[0].toLowerCase();
 
-        db.prepare(`INSERT INTO wordBanned(word, userId) VALUES(?, ?)`, [word, message.author.id]).run()
+        db.prepare(`INSERT INTO bannedWords(word, authorID, created_at) VALUES(?, ?, datetime('now'))`, [word, message.author.id]).run()
 
         const embed = process.embedSuccessDefault.addField('Mot enregistré :', ` \`\`\` ${word} \`\`\` `)
 
